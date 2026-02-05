@@ -1,0 +1,27 @@
+.register_page {
+    width: 100dvw;
+    height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form_register{
+    width: 40rem;
+    padding: 4rem;
+    border: 1px solid gray;
+}
+
+.login_page {
+    width: 100dvw;
+    height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form_login{
+    width: 40rem;
+    padding: 4rem;
+    border: 1px solid gray;
+}
