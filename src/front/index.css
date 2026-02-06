@@ -1,3 +1,8 @@
+<<<<<<< cesar
+:root {
+  --primary-color: #f7a734 ;
+  --secondary-color: #f8d835;
+=======
 .register_page {
     width: 100dvw;
     height: 100dvh;
@@ -24,4 +29,5 @@
     width: 40rem;
     padding: 4rem;
     border: 1px solid gray;
+>>>>>>> dev
 }
