@@ -18,7 +18,6 @@ export const Home = () => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
   
-  // Datos de ejemplo
   const sampleUsers = [
     {
       id: 1,
