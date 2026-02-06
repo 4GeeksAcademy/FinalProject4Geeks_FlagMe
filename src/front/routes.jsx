@@ -12,6 +12,8 @@ import { Demo } from "./pages/Demo";
 import { Search } from "./pages/search/Search";
 import { Chat } from "./pages/chat/Chat";
 import { Configuration } from "./pages/configuration/Configuration";
+import { Register } from "./pages/Register";
+import { Login } from "./pages/Login";
 
 export const router = createBrowserRouter(
     createRoutesFromElements(

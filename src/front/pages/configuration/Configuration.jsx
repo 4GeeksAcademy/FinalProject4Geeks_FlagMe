@@ -48,7 +48,6 @@ export const Configuration = () => {
   // Guardar configuraciones (simulado)
   const handleSave = () => {
     alert("Configuraciones guardadas exitosamente!");
-    // En una aplicación real, aquí enviarías los datos al servidor
   };
   
   // Restablecer configuraciones

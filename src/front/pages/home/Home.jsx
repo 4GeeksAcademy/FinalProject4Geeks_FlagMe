@@ -127,7 +127,6 @@ export const Home = () => {
     console.log(`Usuario clickeado: ${user?.name} - ${user?.location}`);
   };
   
-  // Renderizado MÓVIL - Una sola columna vertical
   if (isMobile) {
     return (
       <div className={style.homeContainer} ref={containerRef}>
