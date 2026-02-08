@@ -1,0 +1,86 @@
+/* Fondo general */
+.login_page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #ffd44d 0%, #f6b73c 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Tarjeta */
+.form_login {
+  background: #ffffff;
+  width: 360px;
+  padding: 32px 28px;
+  border-radius: 18px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Título */
+.form_login h2 {
+  text-align: center;
+  margin-bottom: 24px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Grupo de inputs */
+.form-group {
+  margin-bottom: 16px;
+}
+
+/* Labels */
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: #555;
+}
+
+/* Inputs */
+.form-control {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.form-control:focus {
+  border-color: #f6b73c;
+  box-shadow: 0 0 0 2px rgba(246, 183, 60, 0.25);
+}
+
+/* Texto de ayuda */
+.form-text {
+  font-size: 12px;
+  color: #999;
+}
+
+/* Botón */
+.btn {
+  width: 100%;
+  margin-top: 16px;
+  padding: 14px;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(90deg, #f6b73c, #ffd44d);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(246, 183, 60, 0.4);
+}
+
+.btn:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 10px rgba(246, 183, 60, 0.3);
+}

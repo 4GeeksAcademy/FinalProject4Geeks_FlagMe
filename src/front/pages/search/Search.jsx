@@ -5,7 +5,6 @@ export const Search = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollContainerRef = useRef(null);
   
-  // Datos de ejemplo con imágenes
   const [images, setImages] = useState([
     {
       id: 1,
@@ -55,13 +54,11 @@ export const Search = () => {
 
   const handleAccept = () => {
     console.log(`Aceptaste a ${images[currentIndex]?.name}`);
-    // Lógica para aceptar/match
     removeCurrentImage();
   };
 
   const handleReject = () => {
     console.log(`Rechazaste a ${images[currentIndex]?.name}`);
-    // Lógica para rechazar
     removeCurrentImage();
   };
 
@@ -80,7 +77,6 @@ export const Search = () => {
     }
   };
 
-  // Efecto para añadir event listener al scroll
   useEffect(() => {
     const container = scrollContainerRef.current;
     if (container) {
@@ -125,8 +121,6 @@ export const Search = () => {
         </div>
       </div>
 
-
-      {/* Botones de acción */}
       <div className={style.actionsContainer}>
         <button 
           className={`${style.actionButton} ${style.rejectButton}`}

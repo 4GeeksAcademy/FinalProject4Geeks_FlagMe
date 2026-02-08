@@ -95,26 +95,22 @@ export const Chat = () => {
   ];
 
   useEffect(() => {
-    // Simular carga de datos
     setTimeout(() => {
       setChats(exampleChats);
       setLoading(false);
     }, 800);
   }, []);
 
-  // Filtrar chats por búsqueda
   const filteredChats = chats.filter(chat =>
     chat.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     chat.lastMessage.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const handleChatClick = (chatId) => {
-    // Navegar a la pantalla de chat individual
     navigate(`/chat/${chatId}`);
   };
 
   const handleNewChat = () => {
-    // Navegar a pantalla para crear nuevo chat
     navigate("/new-chat");
   };
 
@@ -126,7 +122,6 @@ export const Chat = () => {
     navigate("/settings");
   };
 
-  // Componente de skeleton loading
   const SkeletonItem = () => (
     <div className={style.chatItem}>
       <div className={`${style.skeletonAvatar} ${style.skeleton}`}></div>

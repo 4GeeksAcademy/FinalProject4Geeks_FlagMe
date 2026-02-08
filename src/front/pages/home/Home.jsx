@@ -107,11 +107,8 @@ export const Home = () => {
   
   useEffect(() => {
     setUsers(sampleUsers);
-    
-    // Forzar recálculo del layout en cambios de tamaño
     const handleResize = () => {
       if (containerRef.current) {
-        // Trigger reflow para recalcular dimensiones
         containerRef.current.style.display = 'none';
         containerRef.current.offsetHeight;
         containerRef.current.style.display = '';
@@ -165,42 +162,4 @@ export const Home = () => {
       </div>
     );
   }
-  
-  // Renderizado WEB - Grid de 2 columnas
-  return (
-    <div className={style.homeContainer} ref={containerRef}>
-      <div className={style.gridContainer}>
-        <div className={style.gridTwoColumns}>
-          {users.map(user => (
-            <div 
-              key={user.id} 
-              className={style.gridUserCard}
-              onClick={() => handleUserClick(user.id)}
-            >
-              <div className={user.online ? style.onlineIndicator : style.offlineIndicator}></div>
-              <div className={style.imageOverlay}></div>
-              <img 
-                src={user.image} 
-                alt={user.name} 
-                className={style.userImage}
-                loading="lazy"
-                onError={(e) => {
-                  e.target.style.backgroundColor = '#f0f0f0';
-                  e.target.style.display = 'none';
-                  e.target.parentElement.style.backgroundColor = '#f0f0f0';
-                }}
-              />
-              <div className={style.infoOverlay}>
-                <h3 className={style.userName}>{user.name}</h3>
-                <div className={style.userLocation}>
-                  <i className={`fas fa-map-marker-alt ${style.locationIcon}`}></i>
-                  {user.location}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
 };

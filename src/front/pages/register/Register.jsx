@@ -1,3 +1,4 @@
+import style from "./Register.module.css";
 import { useState } from "react"
 
 export function Register() {
@@ -33,20 +34,20 @@ export function Register() {
         <div className={"register_page"}>
             <form className="form_register">
                 <h2>Regístrate</h2>
-                <div class="form-group">
-                    <label for="exampleInputText">Nombre de usuario</label>
+                <div className="form-group">
+                    <label htmlFor="exampleInputText">Nombre de usuario</label>
                     <input
                         type="text"
-                        class="form-control"
+                        className="form-control"
                         id="exampleInputText"
                         onChange={(e) => setUsername(e.target.value)}
                         value={username}
                     />
                 </div>
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Email</label>
+                <div className="form-group">
+                    <label htmlFor="exampleInputEmail1">Email</label>
                     <input type="email"
-                        class="form-control"
+                        className="form-control"
                         id="exampleInputEmail1"
                         aria-describedby="emailHelp"
                         placeholder="Enter email"
@@ -55,10 +56,10 @@ export function Register() {
                     />
                     <small id="emailHelp" class="form-text text-muted">Nunca compartiremos tus datos.</small>
                 </div>
-                <div class="form-group">
-                    <label for="exampleInputPassword1">Contraseña</label>
+                <div className="form-group">
+                    <label htmlFor="exampleInputPassword1">Contraseña</label>
                     <input type="password"
-                        class="form-control"
+                        className="form-control"
                         id="exampleInputPassword1"
                         placeholder="Password"
                         onChange={(e) => setPassword(e.target.value)}
@@ -66,7 +67,7 @@ export function Register() {
                     />
                 </div>
 
-                <button class="btn btn-primary" onClick={(e)=> createUser(e)}>Submit</button>
+                <button className="btn btn-primary" onClick={(e)=> createUser(e)}>Submit</button>
             </form>
         </div>
     )
