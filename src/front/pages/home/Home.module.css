@@ -1,431 +1,71 @@
-/* Contenedor principal */
 .homeContainer {
-  background-color: white;
-  min-height: calc(100vh - 140px);
-  font-family: 'Segoe UI', system-ui, sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
   padding: 20px;
-  overflow: hidden;
-  width: 100%;
-  margin-top: 70px; 
-  margin-bottom: 70px;
-  align-items: center;
-  min-height: calc(100vh - 140px);
-}
-/* ============ VERSIÓN MÓVIL ============ */
-
-/* Wrapper para la columna única (MÓVIL) */
-.singleColumnWrapper {
-  width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
+  background: #fff;
 }
 
-/* Columna única VERTICAL (MÓVIL) */
-.singleColumn {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  width: 100%;
-  max-width: 350px; /* Un poco menos que el wrapper para márgenes */
-  overflow-y: auto; /* Scroll vertical */
-  max-height: calc(100vh - 40px); /* Altura máxima con padding */
-  padding: 10px 5px 30px; /* Padding para espacio de scroll */
-  scrollbar-width: thin; /* Firefox */
-  scrollbar-color: rgba(0, 0, 0, 0.2) transparent; /* Firefox */
-}
-
-/* Personalización del scrollbar para WebKit (MÓVIL) */
-.singleColumn::-webkit-scrollbar {
-  width: 6px;
-}
-
-.singleColumn::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.05);
-  border-radius: 10px;
-}
-
-.singleColumn::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
-}
-
-.singleColumn::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.3);
-}
-
-/* ============ VERSIÓN WEB ============ */
-
-/* Contenedor para grid en web */
-.gridContainer {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-/* Grid de 2 columnas (WEB) */
-.gridTwoColumns {
+.grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* 2 columnas iguales */
-  gap: 25px;
-  width: 100%;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
 }
 
-/* Tarjetas de usuario en WEB (cuadradas) */
-.gridUserCard {
-  background: white;
-  border-radius: 15px;
-  overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-  cursor: pointer;
+.card {
   position: relative;
-  width: 100%;
-  aspect-ratio: 1/1; /* Cuadrados en web */
-  min-height: 300px;
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  height: 260px;
 }
 
-.gridUserCard:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
-}
-
-/* ============ ESTILOS COMPARTIDOS ============ */
-
-/* Imagen del usuario */
-.userImage {
+.image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
-  transition: transform 0.5s ease;
-  position: absolute;
-  top: 0;
-  left: 0;
 }
 
-/* Efecto hover en imagen */
-.gridUserCard:hover .userImage,
-.userCard:hover .userImage {
-  transform: scale(1.05);
-}
-
-/* Overlay para el nombre y ubicación */
-.infoOverlay {
+.gradient {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.6) 50%, transparent 100%);
-  padding: 20px 15px 15px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-  z-index: 1;
-  min-height: 45%;
+  height: 60%;
+  background: linear-gradient(
+    to top,
+    rgba(255, 183, 3, 0.95),
+    rgba(255, 183, 3, 0)
+  );
 }
 
-/* Nombre del usuario */
-.userName {
+.info {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
   color: white;
-  font-size: 1.2rem;
+  text-align: center;
+  width: 100%;
+}
+
+
+.name {
+  font-size: 22px;
   font-weight: 600;
-  margin-bottom: 5px;
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-  width: 100%;
+  margin: 5px 0 0;
 }
 
-/* Ubicación del usuario */
-.userLocation {
-  color: rgba(255, 255, 255, 0.95);
-  font-size: 0.9rem;
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
+.location {
+  font-size: 14px;
+  opacity: 0.9;
 }
 
-/* Icono de ubicación */
-.locationIcon {
-  font-size: 0.85rem;
-  opacity: 0.95;
-}
-
-/* Indicador de estado en línea */
-.onlineIndicator {
+.onlineDot {
   position: absolute;
-  top: 15px;
-  right: 15px;
+  top: 12px;
+  right: 12px;
   width: 12px;
   height: 12px;
-  background-color: #2ecc71;
+  background: #2ecc71;
   border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.9);
-  box-shadow: 0 0 8px rgba(46, 204, 113, 0.7);
+  border: 2px solid white;
   z-index: 2;
-}
-
-.offlineIndicator {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  width: 12px;
-  height: 12px;
-  background-color: rgba(149, 165, 166, 0.8);
-  border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.9);
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-  z-index: 2;
-}
-
-/* Overlay de hover para toda la imagen */
-.imageOverlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  opacity: 0.85;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.gridUserCard:hover .imageOverlay,
-.userCard:hover .imageOverlay {
-  opacity: 0.95;
-}
-
-/* Efecto sutil de brillo en hover */
-.gridUserCard::after,
-.userCard::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.gridUserCard:hover::after,
-.userCard:hover::after {
-  opacity: 1;
-}
-
-/* Animación de carga */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.gridUserCard,
-.userCard {
-  animation: fadeIn 0.4s ease forwards;
-}
-
-/* Retrasos para animación escalonada */
-.gridUserCard:nth-child(odd),
-.userCard:nth-child(odd) {
-  animation-delay: 0.1s;
-}
-
-.gridUserCard:nth-child(even),
-.userCard:nth-child(even) {
-  animation-delay: 0.2s;
-}
-
-/* Borde sutil */
-.gridUserCard,
-.userCard {
-  border: 1px solid rgba(0, 0, 0, 0.08);
-}
-
-/* ============ MEDIA QUERIES ============ */
-
-/* Para web grande */
-@media (min-width: 1400px) {
-  .gridContainer {
-    max-width: 1400px;
-  }
-  
-  .gridTwoColumns {
-    gap: 30px;
-  }
-  
-  .gridUserCard {
-    min-height: 350px;
-  }
-}
-
-/* Tablet (768px - 1024px) */
-@media (min-width: 769px) and (max-width: 1024px) {
-  .gridContainer {
-    max-width: 900px;
-    padding: 0 15px;
-  }
-  
-  .gridTwoColumns {
-    gap: 20px;
-  }
-  
-  .gridUserCard {
-    min-height: 280px;
-  }
-  
-  .userName {
-    font-size: 1.1rem;
-  }
-  
-  .userLocation {
-    font-size: 0.85rem;
-  }
-}
-
-/* ============ MÓVIL (768px o menos) ============ */
-/* (Manteniendo exactamente el CSS anterior para móvil) */
-
-@media (max-width: 768px) {
-  .homeContainer {
-    padding: 15px;
-  }
-  
-  /* Ocultar grid en móvil */
-  .gridContainer,
-  .gridTwoColumns,
-  .gridUserCard {
-    display: none;
-  }
-  
-  /* Mostrar columna única en móvil */
-  .singleColumnWrapper {
-    max-width: 360px;
-    display: flex;
-  }
-  
-  .singleColumn {
-    max-width: 320px;
-    gap: 16px;
-    max-height: calc(100vh - 30px);
-  }
-  
-  .userCard {
-    height: 230px;
-    min-height: 230px;
-  }
-  
-  .userName {
-    font-size: 1.1rem;
-  }
-  
-  .userLocation {
-    font-size: 0.8rem;
-  }
-  
-  .infoOverlay {
-    padding: 18px 12px 12px;
-    min-height: 40%;
-  }
-}
-
-/* Móvil pequeño (480px o menos) */
-@media (max-width: 480px) {
-  .homeContainer {
-    padding: 10px;
-  }
-  
-  .singleColumnWrapper {
-    max-width: 100%;
-    padding: 0 10px;
-  }
-  
-  .singleColumn {
-    max-width: 100%;
-    gap: 14px;
-    max-height: calc(100vh - 20px);
-  }
-  
-  .userCard {
-    height: 220px;
-    min-height: 220px;
-  }
-  
-  .infoOverlay {
-    padding: 15px 10px 10px;
-    min-height: 35%;
-  }
-  
-  .userName {
-    font-size: 1rem;
-  }
-  
-  .userLocation {
-    font-size: 0.75rem;
-  }
-  
-  .onlineIndicator,
-  .offlineIndicator {
-    width: 10px;
-    height: 10px;
-    top: 10px;
-    right: 10px;
-  }
-}
-
-/* Móvil muy pequeño (360px o menos) */
-@media (max-width: 360px) {
-  .homeContainer {
-    padding: 8px;
-  }
-  
-  .singleColumnWrapper {
-    padding: 0 8px;
-  }
-  
-  .singleColumn {
-    gap: 12px;
-    max-height: calc(100vh - 16px);
-  }
-  
-  .userCard {
-    height: 200px;
-    min-height: 200px;
-  }
-  
-  .infoOverlay {
-    padding: 12px 8px 8px;
-  }
-  
-  .userName {
-    font-size: 0.95rem;
-  }
-  
-  .userLocation {
-    font-size: 0.7rem;
-  }
 }
