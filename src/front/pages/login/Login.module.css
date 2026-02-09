@@ -1,86 +1,90 @@
-/* Fondo general */
 .login_page {
   min-height: 100vh;
-  background: linear-gradient(180deg, #ffd44d 0%, #f6b73c 100%);
   display: flex;
-  align-items: center;
   justify-content: center;
-  font-family: "Poppins", sans-serif;
+  align-items: center;
+  background: linear-gradient(180deg, #ffd84d 0%, #ffb703 100%);
 }
 
-/* Tarjeta */
 .form_login {
   background: #ffffff;
-  width: 360px;
-  padding: 32px 28px;
+  width: 340px;
+  padding: 40px 30px;
   border-radius: 18px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
 
-/* Título */
-.form_login h2 {
-  text-align: center;
-  margin-bottom: 24px;
-  font-weight: 600;
-  color: #333;
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  margin-bottom: 15px;
 }
 
-/* Grupo de inputs */
-.form-group {
-  margin-bottom: 16px;
+.tab {
+  font-size: 15px;
+  color: #aaa;
+  cursor: pointer;
+  padding-bottom: 5px;
+  position: relative;
 }
 
-/* Labels */
-.form-group label {
-  display: block;
-  margin-bottom: 6px;
-  font-size: 14px;
-  color: #555;
+.active {
+  color: #ffb703;
+  font-weight: 500;
 }
 
-/* Inputs */
-.form-control {
+.active::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
   width: 100%;
-  padding: 12px 14px;
+  height: 3px;
+  background: #ffb703;
+  border-radius: 2px;
+}
+
+
+.title {
+  text-align: center;
+  font-size: 26px;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.input {
+  height: 45px;
   border-radius: 10px;
-  border: 1px solid #ddd;
+  border: none;
+  background: #e0e0e0;
+  padding: 0 15px;
   font-size: 14px;
   outline: none;
-  transition: all 0.2s ease;
 }
 
-.form-control:focus {
-  border-color: #f6b73c;
-  box-shadow: 0 0 0 2px rgba(246, 183, 60, 0.25);
+.input::placeholder {
+  color: #888;
 }
 
-/* Texto de ayuda */
-.form-text {
-  font-size: 12px;
-  color: #999;
-}
-
-/* Botón */
 .btn {
-  width: 100%;
-  margin-top: 16px;
-  padding: 14px;
-  border-radius: 999px;
+  margin-top: 15px;
+  height: 50px;
   border: none;
-  background: linear-gradient(90deg, #f6b73c, #ffd44d);
-  color: #fff;
-  font-size: 16px;
-  font-weight: 600;
+  border-radius: 30px;
+  background: #ffb703;
+  color: white;
+  font-size: 18px;
+  font-weight: 500;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(246, 183, 60, 0.4);
-}
-
-.btn:active {
-  transform: translateY(0);
-  box-shadow: 0 4px 10px rgba(246, 183, 60, 0.3);
+  box-shadow: 0px 8px 20px rgba(255, 183, 3, 0.5);
 }

@@ -67,7 +67,6 @@ export const Search = () => {
       const newImages = images.filter((_, index) => index !== currentIndex);
       setImages(newImages);
       
-      // Si estamos en la última imagen y la eliminamos, retrocedemos al índice anterior
       if (currentIndex >= newImages.length && newImages.length > 0) {
         setCurrentIndex(newImages.length - 1);
         setTimeout(() => {

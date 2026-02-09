@@ -1,74 +1,83 @@
 import style from "./Register.module.css";
-import { useState } from "react"
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export function Register() {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-    const [username, setUsername] = useState("")
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
+  const navigate = useNavigate();
 
-    async function createUser(e) {
-        try {
-            e.preventDefault()
-            const backendUrl = import.meta.env.VITE_BACKEND_URL
+  async function createUser(e) {
+    e.preventDefault();
+    try {
+      const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-            let body = {
-                "username": username,
-                "email": email,
-                "password": password, 
-            }
+      let body = {
+        username,
+        email,
+        password,
+      };
 
-            let result = await fetch(backendUrl + "/api/register", {
-                method: "POST",
-                body: JSON.stringify(body),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-        } catch (error) {
-            console.log(error)
-        }
+      await fetch(backendUrl + "/api/register", {
+        method: "POST",
+        body: JSON.stringify(body),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    } catch (error) {
+      console.log(error);
     }
+  }
 
-    return (
-        <div className={"register_page"}>
-            <form className="form_register">
-                <h2>Regístrate</h2>
-                <div className="form-group">
-                    <label htmlFor="exampleInputText">Nombre de usuario</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="exampleInputText"
-                        onChange={(e) => setUsername(e.target.value)}
-                        value={username}
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="exampleInputEmail1">Email</label>
-                    <input type="email"
-                        className="form-control"
-                        id="exampleInputEmail1"
-                        aria-describedby="emailHelp"
-                        placeholder="Enter email"
-                        onChange={(e) => setEmail(e.target.value)}
-                        value={email}
-                    />
-                    <small id="emailHelp" class="form-text text-muted">Nunca compartiremos tus datos.</small>
-                </div>
-                <div className="form-group">
-                    <label htmlFor="exampleInputPassword1">Contraseña</label>
-                    <input type="password"
-                        className="form-control"
-                        id="exampleInputPassword1"
-                        placeholder="Password"
-                        onChange={(e) => setPassword(e.target.value)}
-                        value={password}
-                    />
-                </div>
+  return (
+    <div className={style.register_page}>
+      <form className={style.form_register} onSubmit={createUser}>
+        <div className={style.tabs}>
+          <span
+            className={style.tab}
+            onClick={() => navigate("/login")}
+          >
+            Inicia Sesión
+          </span>
 
-                <button className="btn btn-primary" onClick={(e)=> createUser(e)}>Submit</button>
-            </form>
+          <span className={`${style.tab} ${style.active}`}>
+            Regístrate
+          </span>
         </div>
-    )
+
+        <h2 className={style.title}>Bienvenido</h2>
+
+        <input
+          type="text"
+          className={style.input}
+          placeholder="Nombre de usuario"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+
+        <input
+          type="email"
+          className={style.input}
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+
+        <input
+          type="password"
+          className={style.input}
+          placeholder="Contraseña"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+
+        <button className={style.btn} type="submit">
+          Regístrate
+        </button>
+      </form>
+    </div>
+  );
 }
