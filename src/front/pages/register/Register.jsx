@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export function Register() {
-  const [username, setUsername] = useState("");
+  //const [username, setUsername] = useState(""); (Lo dejo así porque el backend solo me pide por ahora el Email y Contraseña)
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -11,26 +11,39 @@ export function Register() {
 
   async function createUser(e) {
     e.preventDefault();
+    
     try {
+      
       const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-      let body = {
-        username,
-        email,
-        password,
-      };
-
-      await fetch(backendUrl + "/api/register", {
+      const response = await fetch(`${backendUrl}/api/create_user`, {
         method: "POST",
-        body: JSON.stringify(body),
         headers: {
           "Content-Type": "application/json",
         },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
       });
+
+      const data = await response.json();
+      console.log(data)
+
+      if (!response.ok) {
+        alert(data.error || "Error al registrarse");
+        return;
+      }
+
+      console.log("Usuario creado:", data);
+
+      navigate("/login");
+
     } catch (error) {
       console.log(error);
     }
   }
+
 
   return (
     <div className={style.register_page}>
@@ -49,14 +62,6 @@ export function Register() {
         </div>
 
         <h2 className={style.title}>Bienvenido</h2>
-
-        <input
-          type="text"
-          className={style.input}
-          placeholder="Nombre de usuario"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
 
         <input
           type="email"

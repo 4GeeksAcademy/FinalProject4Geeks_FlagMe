@@ -1,6 +1,7 @@
 import style from "./Home.module.css";
 import { useState, useEffect } from "react";
 
+
 export const Home = () => {
   const [users, setUsers] = useState([]);
 
