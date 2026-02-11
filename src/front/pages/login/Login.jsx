@@ -3,39 +3,51 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export function Login() {
-    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [activeTab, setActiveTab] = useState("login");
     const navigate = useNavigate();
 
-
-
-    async function createUser(e) {
+    async function handleLogin(e) {
         e.preventDefault();
+
         try {
             const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-            let body = {
-                username,
-                email,
-                password,
-            };
-
-            await fetch(backendUrl + "/api/login", {
+            const response = await fetch(`${backendUrl}/api/login`, {
                 method: "POST",
-                body: JSON.stringify(body),
                 headers: {
                     "Content-Type": "application/json",
                 },
+                body: JSON.stringify({
+                    email: email,
+                    password: password,
+                }),
             });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                console.log(data.error);
+                alert("Credenciales incorrectas");
+                return;
+            }
+
+            console.log("Login correcto:", data);
+
+            localStorage.setItem("user", JSON.stringify(data.user));
+
+            navigate("/");
+
         } catch (error) {
             console.log(error);
         }
     }
 
+
     return (
         <div className={style.login_page}>
-            <form className={style.form_login} onSubmit={createUser}>
+            <form className={style.form_login} onSubmit={handleLogin}>
                 <div className={style.tabs}>
                     <span
                         className={`${style.tab} ${activeTab === "login" ? style.active : ""
@@ -56,11 +68,11 @@ export function Login() {
                 <h2 className={style.title}>Bienvenido</h2>
 
                 <input
-                    type="text"
+                    type="email"
                     className={style.input}
-                    placeholder="Usuario o Email"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                 />
 
                 <input
