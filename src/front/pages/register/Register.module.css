@@ -3,7 +3,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(180deg, #ffd84d 0%, #ffb703 100%);
+  background: var(--linear-gradiant);
 }
 
 .form_register {

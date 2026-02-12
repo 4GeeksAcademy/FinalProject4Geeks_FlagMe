@@ -1,5 +1,5 @@
 .footer {
-  background: linear-gradient(135deg, #f7a734 0%, #f8d835 100%);
+  background: var(--main-gradient);
   box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: space-around;
