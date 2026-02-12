@@ -1,6 +1,7 @@
 .homeContainer {
   padding: 20px;
-  background: #fff;
+  background: white
+  
 }
 
 .grid {
@@ -29,11 +30,7 @@
   left: 0;
   right: 0;
   height: 60%;
-  background: linear-gradient(
-    to top,
-    rgba(255, 183, 3, 0.95),
-    rgba(255, 183, 3, 0)
-  );
+  background: var(--linear-gradient) 
 }
 
 .info {

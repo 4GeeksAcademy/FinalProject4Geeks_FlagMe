@@ -1,11 +1,10 @@
 .navbar {
-  background: linear-gradient(135deg, #f7a734 0%, #f8d835 100%);
+  background: var(--main-gradient);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 15px 25px;
-  color: white;
   transition: all 0.3s ease;
   position: fixed;
   top: 0;
