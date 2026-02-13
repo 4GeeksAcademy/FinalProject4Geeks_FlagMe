@@ -17,7 +17,6 @@
   letter-spacing: 1px;
 }
 
-/* LIST WRAPPER */
 .chatList {
   padding: 25px 20px;
   display: flex;
@@ -25,7 +24,6 @@
   gap: 20px;
 }
 
-/* CHAT ITEM CARD */
 .chatItem {
   display: flex;
   align-items: center;
@@ -43,7 +41,6 @@
   transform: translateY(-2px);
 }
 
-/* AVATAR */
 .avatarWrapper {
   position: relative;
   width: 60px;
@@ -58,7 +55,6 @@
   object-fit: cover;
 }
 
-/* ONLINE DOT */
 .onlineDot {
   position: absolute;
   bottom: 3px;
@@ -70,14 +66,12 @@
   border: 2px solid white;
 }
 
-/* CHAT INFO */
 .chatInfo {
   flex: 1;
   display: flex;
   flex-direction: column;
 }
 
-/* NAME + TIME ROW */
 .topRow {
   display: flex;
   justify-content: space-between;
@@ -95,7 +89,6 @@
   color: #777;
 }
 
-/* LAST MESSAGE */
 .lastMessage {
   margin-top: 5px;
   font-size: 16px;

@@ -3,7 +3,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: var(--linear-gradiant);
+  background: var(--main-gradient);
 }
 
 .form_register {
@@ -33,7 +33,7 @@
 }
 
 .active {
-  color: #ffb703;
+  color: #ee4e26;
   font-weight: 500;
 }
 
@@ -44,7 +44,7 @@
   left: 0;
   width: 100%;
   height: 3px;
-  background: #ffb703;
+  background: #ee4e26;
   border-radius: 2px;
 }
 
@@ -70,7 +70,7 @@
   height: 50px;
   border: none;
   border-radius: 30px;
-  background: #ffb703;
+  background: #ee4e26;
   color: white;
   font-size: 18px;
   cursor: pointer;
