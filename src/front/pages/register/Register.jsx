@@ -1,4 +1,4 @@
-import style from "./UserProfile.module.css";
+//import style from "./UserProfile.module.css";
 
 export function Register() {
   //const [username, setUsername] = useState(""); (Lo dejo así porque el backend solo me pide por ahora el Email y Contraseña)
@@ -47,8 +47,7 @@ export function Register() {
     }
   }
 
-
-  return (
+return (
     <div className={style.register_page}>
       <form className={style.form_register} onSubmit={createUser}>
         <div className={style.tabs}>
@@ -59,11 +58,12 @@ export function Register() {
             Inicia Sesión
           </span>
 
-         <div className={style.menu}>
+          <span className={`${style.tab} ${style.active}`}>
+            Regístrate
+          </span>
+        </div>
 
-        <button className={style.box}>
-          Personal Details
-        </button>
+        <h2 className={style.title}>Bienvenido</h2>
 
         <input
           type="email"
@@ -73,8 +73,18 @@ export function Register() {
           onChange={(e) => setEmail(e.target.value)}
         />
 
-      </div>
+        <input
+          type="password"
+          className={style.input}
+          placeholder="Contraseña"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
+        <button className={style.btn} type="submit">
+          Regístrate
+        </button>
+      </form>
     </div>
   );
 }
