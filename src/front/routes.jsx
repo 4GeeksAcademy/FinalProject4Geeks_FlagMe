@@ -12,6 +12,7 @@ import { Demo } from "./pages/Demo";
 import { Search } from "./pages/search/Search";
 import { Chat } from "./pages/chat/Chat";
 import { Configuration } from "./pages/configuration/Configuration";
+import { UserChat } from "./pages/userChat/UserChat";
 import { Register } from "./pages/register/Register";
 import { Login } from "./pages/login/Login";
 
@@ -33,6 +34,7 @@ export const router = createBrowserRouter(
         <Route path= "/configuration" element={<Configuration />} />
         <Route path="/single/:theId" element={ <Single />} />  {/* Dynamic route for single items */}
         <Route path="/demo" element={<Demo />} />
+        <Route path="/chat/:id" element={<UserChat/>} />
         <Route path="/register" element={<Register></Register>}></Route>
         <Route path="/login" element={<Login></Login>}></Route>
       </Route>
