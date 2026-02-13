@@ -1,6 +1,8 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
+import re
+
 from flask import request, jsonify, Blueprint
 from flask_cors import CORS
 
@@ -27,15 +29,26 @@ def get_users():
 @user.route('/', methods=['POST'])
 def create_user():
     data = request.get_json()  # Get the JSON data of the frontend request
+    if not isinstance(data, dict):
+        return jsonify({"error": "Invalid request body"}), 400
+
+    email = (data.get('email') or '').strip()
+    password = data.get('password')
+    if not email:
+        return jsonify({"error": "Email is required"}), 400
+    if not _is_valid_email(email):
+        return jsonify({"error": "Invalid email format"}), 400
+    if not password:
+        return jsonify({"error": "Password is required"}), 400
 
     auth_response = supabase.auth.sign_up(
-        {"email": data['email'], "password": data['password']})
+        {"email": email, "password": password})
 
     if auth_response.user is None:
         return jsonify({"error": "No se pudo registrar el usuario"}), 400
 
     # Insertar en la tabla Usuario usando el UUID de Supabase
-    usuario_data = {'id': auth_response.user.id, 'email': data['email']}
+    usuario_data = {'id': auth_response.user.id, 'email': email}
 
     try:
         insert_response = supabase.table(
@@ -52,15 +65,32 @@ def create_user():
 @user.route('/login', methods=['POST'])
 def login():
     data = request.get_json()  # Get the JSON data of the frontend request
+    if not isinstance(data, dict):
+        return jsonify({"error": "Invalid request body"}), 400
+
+    email = (data.get('email') or '').strip()
+    password = data.get('password')
+    if not email:
+        return jsonify({"error": "Email is required"}), 400
+    if not _is_valid_email(email):
+        return jsonify({"error": "Invalid email format"}), 400
+    if not password:
+        return jsonify({"error": "Password is required"}), 400
 
     response = supabase.auth.sign_in_with_password(
-        {"email": data['email'], "password": data['password']})
+        {"email": email, "password": password})
 
     if response.user is None:
         return jsonify({"error": "User not found or incorrect password"}), 400
 
     """print(response.user)"""
     return jsonify({'message': 'Login successful', 'user': {'id': response.user.id, 'email': response.user.email, 'user_metadata': response.user.user_metadata}, }), 200
+
+
+def _is_valid_email(email):
+    # Email check; avoids malformed emails.
+    pattern = r"^[^\s@]+@[^\s@]+\.[^\s@]+$"
+    return re.match(pattern, email) is not None
 
 # Get profile by ID
 
