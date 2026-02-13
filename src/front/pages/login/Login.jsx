@@ -14,7 +14,7 @@ export function Login() {
         try {
             const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-            const response = await fetch(`${backendUrl}/api/login`, {
+            const response = await fetch(`${backendUrl}/api/user/login`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
