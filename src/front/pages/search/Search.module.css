@@ -6,9 +6,9 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Centrado vertical */
-  align-items: center; /* Centrado horizontal */
-  min-height: 100vh; /* Usar toda la altura de la ventana */
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
   width: 100%;
 }
 

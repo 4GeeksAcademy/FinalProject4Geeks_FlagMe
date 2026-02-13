@@ -1,0 +1,92 @@
+import style from "./Login.module.css";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+export function Login() {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [activeTab, setActiveTab] = useState("login");
+    const navigate = useNavigate();
+
+    async function handleLogin(e) {
+        e.preventDefault();
+
+        try {
+            const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
+            const response = await fetch(`${backendUrl}/api/login`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                console.log(data.error);
+                alert("Credenciales incorrectas");
+                return;
+            }
+
+            console.log("Login correcto:", data);
+
+            localStorage.setItem("user", JSON.stringify(data.user));
+
+            navigate("/");
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
+    return (
+        <div className={style.login_page}>
+            <form className={style.form_login} onSubmit={handleLogin}>
+                <div className={style.tabs}>
+                    <span
+                        className={`${style.tab} ${activeTab === "login" ? style.active : ""
+                            }`}
+                        onClick={() => setActiveTab("login")}
+                    >
+                        Inicia Sesión
+                    </span>
+
+                    <span
+                        className={style.tab}
+                        onClick={() => navigate("/register")}
+                    >
+                        Regístrate
+                    </span>
+                </div>
+
+                <h2 className={style.title}>Bienvenido</h2>
+
+                <input
+                    type="email"
+                    className={style.input}
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                />
+
+                <input
+                    type="password"
+                    className={style.input}
+                    placeholder="Contraseña"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+
+                <button className={style.btn} type="submit">
+                    Inicia Sesión
+                </button>
+            </form>
+        </div>
+    );
+}

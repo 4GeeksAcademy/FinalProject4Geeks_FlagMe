@@ -13,6 +13,8 @@ import { Search } from "./pages/search/Search";
 import { Chat } from "./pages/chat/Chat";
 import { Configuration } from "./pages/configuration/Configuration";
 import { UserChat } from "./pages/userChat/UserChat";
+import { Register } from "./pages/register/Register";
+import { Login } from "./pages/login/Login";
 
 export const router = createBrowserRouter(
     createRoutesFromElements(
