@@ -14,12 +14,12 @@ export function Register() {
 
   async function createUser(e) {
     e.preventDefault();
-    
+
     try {
-      
+
       const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-      const response = await fetch(`${backendUrl}/api/create_user`, {
+      const response = await fetch(`${backendUrl}/api/user`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
