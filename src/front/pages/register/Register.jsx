@@ -1,83 +1,47 @@
-import style from "./Register.module.css";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import style from "./UserProfile.module.css";
 
-export function Register() {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+export function UserProfile() {
 
-  const navigate = useNavigate();
-
-  async function createUser(e) {
-    e.preventDefault();
-    try {
-      const backendUrl = import.meta.env.VITE_BACKEND_URL;
-
-      let body = {
-        username,
-        email,
-        password,
-      };
-
-      await fetch(backendUrl + "/api/register", {
-        method: "POST",
-        body: JSON.stringify(body),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  const user = {
+    name: "Pepe",
+    email: "pepe@email.com",
+    bio: "Hola soy Pepe",
+    is_active: true,
+  };
 
   return (
-    <div className={style.register_page}>
-      <form className={style.form_register} onSubmit={createUser}>
-        <div className={style.tabs}>
-          <span
-            className={style.tab}
-            onClick={() => navigate("/login")}
-          >
-            Inicia Sesión
-          </span>
+    <div className={style.page}>
 
-          <span className={`${style.tab} ${style.active}`}>
-            Regístrate
-          </span>
-        </div>
+      <img
+        src="https://i.pinimg.com/736x/4b/a6/fa/4ba6fae88f5a593e7b0bd8c1604de317.jpg"
+        className={style.avatar}
+        alt="Foto de perfil"
+      />
 
-        <h2 className={style.title}>Bienvenido</h2>
+      <h2 className={style.name}>{user.name}</h2>
 
-        <input
-          type="text"
-          className={style.input}
-          placeholder="Nombre de usuario"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
+      <div className={style.info}>
+        <p><b>Email</b> {user.email}</p>
+        <p><b>Bio</b> {user.bio}</p>
+        <p><b>Active</b> {user.is_active ? "Yes" : "No"}</p>
+      <
 
-        <input
-          type="email"
-          className={style.input}
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+         <div className={style.menu}>
 
-        <input
-          type="password"
-          className={style.input}
-          placeholder="Contraseña"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-
-        <button className={style.btn} type="submit">
-          Regístrate
+        <button className={style.box}>
+          Personal Details
         </button>
-      </form>
+
+        <button className={style.box}>
+          Settings
+        </button>
+
+        <button className={style.box}>
+          <Ayuda></Ayuda>
+        </button>
+
+      </div>
+
     </div>
   );
 }
