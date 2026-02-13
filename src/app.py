@@ -3,11 +3,13 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 import os
 from flask import Flask, request, jsonify, url_for, send_from_directory
+from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_swagger import swagger
 from api.utils import APIException, generate_sitemap
 from api.models import db
 from api.routes import api
+from api.user.routes import user
 from api.admin import setup_admin
 from api.commands import setup_commands
 
@@ -18,6 +20,9 @@ static_file_dir = os.path.join(os.path.dirname(
     os.path.realpath(__file__)), '../dist/')
 app = Flask(__name__)
 app.url_map.strict_slashes = False
+
+# enable CORS
+CORS(app, origins="*", allow_headers=["Content-Type", "Authorization"])
 
 # database condiguration
 db_url = os.getenv("DATABASE_URL")
@@ -40,6 +45,9 @@ setup_commands(app)
 # Add all endpoints form the API with a "api" prefix
 app.register_blueprint(api, url_prefix='/api')
 
+# Add all endpoints form the API with a "user" prefix
+app.register_blueprint(user, url_prefix='/api/user')
+
 # Handle/serialize errors like a JSON object
 
 
@@ -57,6 +65,8 @@ def sitemap():
     return send_from_directory(static_file_dir, 'index.html')
 
 # any other endpoint will try to serve it like a static file
+
+
 @app.route('/<path:path>', methods=['GET'])
 def serve_any_other_file(path):
     if not os.path.isfile(os.path.join(static_file_dir, path)):

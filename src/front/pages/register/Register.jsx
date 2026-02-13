@@ -1,6 +1,9 @@
 import style from "./UserProfile.module.css";
 
-export function UserProfile() {
+export function Register() {
+  //const [username, setUsername] = useState(""); (Lo dejo así porque el backend solo me pide por ahora el Email y Contraseña)
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const user = {
     name: "Pepe",
@@ -9,22 +12,52 @@ export function UserProfile() {
     is_active: true,
   };
 
+  async function createUser(e) {
+    e.preventDefault();
+    
+    try {
+      
+      const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
+      const response = await fetch(`${backendUrl}/api/create_user`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+
+      const data = await response.json();
+      console.log(data)
+
+      if (!response.ok) {
+        alert(data.error || "Error al registrarse");
+        return;
+      }
+
+      console.log("Usuario creado:", data);
+
+      navigate("/login");
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
   return (
-    <div className={style.page}>
-
-      <img
-        src="https://i.pinimg.com/736x/4b/a6/fa/4ba6fae88f5a593e7b0bd8c1604de317.jpg"
-        className={style.avatar}
-        alt="Foto de perfil"
-      />
-
-      <h2 className={style.name}>{user.name}</h2>
-
-      <div className={style.info}>
-        <p><b>Email</b> {user.email}</p>
-        <p><b>Bio</b> {user.bio}</p>
-        <p><b>Active</b> {user.is_active ? "Yes" : "No"}</p>
-      <
+    <div className={style.register_page}>
+      <form className={style.form_register} onSubmit={createUser}>
+        <div className={style.tabs}>
+          <span
+            className={style.tab}
+            onClick={() => navigate("/login")}
+          >
+            Inicia Sesión
+          </span>
 
          <div className={style.menu}>
 
@@ -32,13 +65,13 @@ export function UserProfile() {
           Personal Details
         </button>
 
-        <button className={style.box}>
-          Settings
-        </button>
-
-        <button className={style.box}>
-          <Ayuda></Ayuda>
-        </button>
+        <input
+          type="email"
+          className={style.input}
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
 
       </div>
 
