@@ -43,14 +43,12 @@
   transform: scale(1.1);
 }
 
-/* Para iconos personalizados */
 .iconImage {
   width: 28px;
   height: 28px;
   object-fit: contain;
 }
 
-/* Responsive para navbar fixed */
 @media (max-width: 768px) {
   .navbar {
     padding: 12px 15px;
