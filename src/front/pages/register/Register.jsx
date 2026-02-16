@@ -58,7 +58,7 @@ export function Register() {
           >
             Inicia Sesión
           </span>
-
+        </div>
          <div className={style.menu}>
 
         <button className={style.box}>
@@ -72,9 +72,9 @@ export function Register() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-
+      
       </div>
-
+     </form>
     </div>
   );
 }
