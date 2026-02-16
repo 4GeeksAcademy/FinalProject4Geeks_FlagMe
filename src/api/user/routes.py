@@ -1,5 +1,6 @@
 """
-This module takes care of starting the API Server, Loading the DB and Adding the endpoints
+This module contains all the routes related to user management, including registration, login, and profile management. 
+It uses the Supabase client to interact with the database and handle authentication.
 """
 import re
 
@@ -14,7 +15,7 @@ user = Blueprint('user_api', __name__)
 # Allow CORS requests to this API
 CORS(user)
 
-# Supabase endoints
+# Supabase endpoints
 
 # Get all profiles
 
@@ -106,7 +107,7 @@ def get_user(user_id):
 
 @user.route('/<string:user_id>', methods=['PUT'])
 def update_user(user_id):
-    allowed_fields = ['name', 'location', 'bio',
+    allowed_fields = ['name', 'age', 'location', 'bio',
                       'languages', 'interests', 'profile_pic']
 
     data = request.get_json()  # Get the JSON data of the frontend request
