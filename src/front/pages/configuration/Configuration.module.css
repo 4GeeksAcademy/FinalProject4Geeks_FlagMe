@@ -8,7 +8,7 @@
 
 /* Encabezado */
 .header {
-  background: linear-gradient(135deg, #f7a734 0%, #f8d835 100%);
+  background: var(--main-gradient);
   color: white;
   padding: 2rem 1.5rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -87,7 +87,7 @@
 
 .navItem a:hover {
   background-color: #f0f5ff;
-  color: #f8d835;
+  color: var(--primary-color);
 }
 
 .sidebarFooter {
@@ -183,7 +183,7 @@
 
 .select:focus {
   outline: none;
-  border-color: #f8d835;
+  border-color: var(--primary-color);
   box-shadow: 0 0 0 3px rgba(37, 117, 252, 0.1);
 }
 
@@ -226,7 +226,7 @@
 }
 
 input:checked + .toggleSlider {
-  background-color: #f8d835;
+  background-color: var(--primary-color);
 }
 
 input:checked + .toggleSlider:before {
@@ -251,7 +251,7 @@ input:checked + .toggleSlider:before {
 
 .sliderValue {
   font-weight: 600;
-  color: #f8d835;
+  color: var(--primary-color);
   min-width: 40px;
   text-align: center;
 }
@@ -281,7 +281,7 @@ input:checked + .toggleSlider:before {
 }
 
 .activeTheme {
-  border-color: #f8d835;
+  border-color: var(--primary-color);
   background-color: #f0f5ff;
 }
 
@@ -325,7 +325,7 @@ input:checked + .toggleSlider:before {
 }
 
 .primaryButton {
-  background: linear-gradient(135deg, #f7a734 0%, #f8d835 100%);
+  background: var(--main-gradient);
   color: white;
   box-shadow: 0 4px 12px rgba(37, 117, 252, 0.3);
 }
