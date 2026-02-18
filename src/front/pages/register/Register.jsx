@@ -1,25 +1,21 @@
-//import style from "./UserProfile.module.css";
+import style from "./Register.module.css";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export function Register() {
   //const [username, setUsername] = useState(""); (Lo dejo así porque el backend solo me pide por ahora el Email y Contraseña)
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const user = {
-    name: "Pepe",
-    email: "pepe@email.com",
-    bio: "Hola soy Pepe",
-    is_active: true,
-  };
+  const navigate = useNavigate();
 
   async function createUser(e) {
     e.preventDefault();
-    
+
     try {
-      
+
       const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-      const response = await fetch(`${backendUrl}/api/create_user`, {
+      const response = await fetch(`${backendUrl}/api/user`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
