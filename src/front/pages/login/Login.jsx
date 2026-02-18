@@ -2,6 +2,7 @@ import style from "./Login.module.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+
 export function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -34,7 +35,7 @@ export function Login() {
             }
 
             console.log("Login correcto:", data);
-
+            localStorage.setItem("token", data.token);
             localStorage.setItem("user", JSON.stringify(data.user));
 
             navigate("/");

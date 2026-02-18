@@ -6,13 +6,15 @@ export const Navbar = () => {
 
   const handleLeftIconClick = () => {
     console.log("Icono izquierdo clickeado");
-    alert("Icono izquierdo: Aquí iría la lógica para insertar una foto");
+    navigate("/userprofile");
   };
 
   const handleLogout = () => {
     const confirmLogout = window.confirm("¿Estás seguro de que deseas cerrar sesión?");
 
     if (confirmLogout) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
       navigate("/login");
     }
   };

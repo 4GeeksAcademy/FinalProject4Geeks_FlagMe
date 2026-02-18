@@ -22,14 +22,12 @@ export const Configuration = () => {
   const [autoSave, setAutoSave] = useState(true);
   const [fontSize, setFontSize] = useState(16);
   
-  // Manejar cambio de tema
+
   const handleThemeChange = (newTheme) => {
     setTheme(newTheme);
-    // En una aplicación real, aquí aplicarías el tema
     document.body.className = newTheme;
   };
   
-  // Manejar cambio de notificaciones
   const handleNotificationChange = (type) => {
     setNotifications({
       ...notifications,
@@ -37,7 +35,7 @@ export const Configuration = () => {
     });
   };
   
-  // Manejar cambio de privacidad
+
   const handlePrivacyChange = (setting, value) => {
     setPrivacy({
       ...privacy,
@@ -45,7 +43,7 @@ export const Configuration = () => {
     });
   };
   
-  // Guardar configuraciones (simulado)
+
   const handleSave = () => {
     alert("Configuraciones guardadas exitosamente!");
   };
@@ -75,7 +73,7 @@ export const Configuration = () => {
       <header className={style.header}>
         <button 
           className={style.backButton}
-          onClick={() => navigate(-1)}
+          onClick={() => navigate("/")}
           aria-label="Volver atrás"
         >
           &larr; Volver
