@@ -89,6 +89,22 @@ export function UserProfile() {
       {/* MENU */}
       <div className={style.menu}>
 
+        {/* boton ayuda */}
+
+        <div className={style.dropdown}>
+          <div className={style.dropdownHeader} onClick={() => toggleSection("settings")}></div>
+            <span>Help</span>
+
+              {openSection === "help" && (
+                <div className={style.dropdownContent}>  
+                  <p><b>Teléfono:</b> +1 809 555 5555</p>
+                  <p><b>Email:</b> ayuda@flagme.com</p>
+               </div>
+              )}
+         </div>
+
+        
+
         <button className={style.box}>
           <FaUserEdit className={style.icon} />
           Actualizar cuenta
