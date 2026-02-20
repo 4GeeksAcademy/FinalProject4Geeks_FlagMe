@@ -3,29 +3,29 @@ import { useState } from "react"
 export function UserChat() {
 
     return (
-       <div id="chat-container">
-    <div id="upper-name">
-        <button id="back-button">Atrás</button>
+       <div className="chat-container">
+    <div className="upper-name">
+        <button className="back-button">Atrás</button>
         <h1>Nombre</h1>
     </div>
-    <div class="chat-messages">
-        <div class="other-message"></div>
-            <div class="upper-name-message">
-                <div class="avatar-other"> </div>
-                <div class="name-other"></div>
+    <div className="chat-messages">
+        <div className="other-message"></div>
+            <div className="upper-name-message">
+                <div className="avatar-other"> </div>
+                <div className="name-other"></div>
                 </div>
-            <div class="message-space-other"></div>
+            <div className="message-space-other"></div>
 
-         <div class="user-message"></div>
-            <div class="upper-name-message">
-                <div class="avatar-user"> </div>
-                <div class="name-user"></div>
+         <div className="user-message"></div>
+            <div className="upper-name-message">
+                <div className="avatar-user"> </div>
+                <div className="name-user"></div>
                 </div>
-            <div class="message-space-user"></div>
+            <div className="message-space-user"></div>
     </div>
-    <div id="chat-input-container">
+    <div className="chat-input-container">
         <input type="text" id="chat-input" placeholder="Escribe tu mensaje..."/>
-        <button id="send-button">Enviar</button>
+        <button className="send-button">Enviar</button>
     </div>
 </div>
     )
