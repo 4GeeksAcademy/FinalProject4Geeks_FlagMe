@@ -97,8 +97,8 @@ export function UserProfile() {
 
               {openSection === "help" && (
                 <div className={style.dropdownContent}>  
-                  <p><b>Teléfono:</b> +1 809 555 5555</p>
-                  <p><b>Email:</b> ayuda@flagme.com</p>
+                  <p><b>FAQ</b> +1 809 555 5555</p>
+                  <p><b>Terminos y condiciones</b> ayuda@flagme.com</p>
                </div>
               )}
          </div>

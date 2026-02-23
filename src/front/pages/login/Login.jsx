@@ -87,6 +87,11 @@ export function Login() {
                 <button className={style.btn} type="submit">
                     Inicia Sesión
                 </button>
+                
+                <hr></hr>
+
+                <Link to="/forgotpassword">¿Haz olvidado tu contraseña?</Link>
+
             </form>
         </div>
     );
