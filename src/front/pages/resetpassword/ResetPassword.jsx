@@ -1,25 +1,32 @@
-import React, { useState } from "react"
-import styles from "./Forgotpassword.module.css"
+import React, { useEffect } from "react"
 
-export const Forgotpassword = () => {
-    const [email, setEmail] = useState("")
+export const Resetpassword = () => {
+    //logica
 
+    //visual
     return (
-        <div className={styles.forgotContainer}>
-            <div className={styles.forgotBox}>
-                <h1>Recuperar contraseña</h1>
+        <div>
+            <h1>Reset Password</h1>
                 <label>
-                    Escribe tu correo
-                    <input
-                        type="email"
-                        value={email}
-                        onChange={e => setEmail(e.target.value)}
-                    />
+                 Nueva contraseña:
+                     <input
+                     value={password}
+                     onChange={e => setPassword(e.target.value)}
+                     />
                 </label>
-                <button className={styles.button} type="submit">
-                    Enviar
-                </button>
-            </div>
+
+                <label>
+                 Confirmar contraseña:
+                     <input
+                     value={confirmpassword}
+                     onChange={e => setConfirmPassword(e.target.value)}
+                 />
+                </label>
+
+                 <button type="submit">
+                 Reset
+                 </button>
+
         </div>
-    )
-}
+    );
+};
