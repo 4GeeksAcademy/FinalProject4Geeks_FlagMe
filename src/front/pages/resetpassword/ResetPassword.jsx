@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 
-export const Resetpassword = () => {
+export const ResetPassword = () => {
     //logica
 
     //visual

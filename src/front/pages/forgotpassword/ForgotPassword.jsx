@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import styles from "./Forgotpassword.module.css"
 
-export const Forgotpassword = () => {
+export const ForgotPassword = () => {
     const [email, setEmail] = useState("")
 
     return (
