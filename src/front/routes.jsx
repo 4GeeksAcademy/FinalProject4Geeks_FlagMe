@@ -16,6 +16,9 @@ import { UserChat } from "./pages/userChat/UserChat";
 import { Register } from "./pages/register/Register";
 import { Login } from "./pages/login/Login";
 import { UserProfile } from "./pages/userprofile/UserProfile";
+import { ForgotPassword } from "./pages/userprofile/ForgotPassword";
+import { ResetPassword } from "./pages/userprofile/ResetPassword";
+
 
 export const router = createBrowserRouter(
     createRoutesFromElements(
@@ -39,6 +42,8 @@ export const router = createBrowserRouter(
         <Route path="/register" element={<Register></Register>}></Route>
         <Route path="/login" element={<Login></Login>}></Route>
         <Route path="/userprofile" element={<UserProfile></UserProfile>}></Route>
+        <Route path="/forgotpassword" element={<ForgotPassword></ForgotPassword>}></Route>
+        <Route path="/resetpassword" element={<ResetPassword></ResetPassword>}></Route>
       </Route>
     )
 );
