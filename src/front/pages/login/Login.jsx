@@ -1,6 +1,6 @@
 import style from "./Login.module.css";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 export function Login() {
@@ -46,6 +46,9 @@ export function Login() {
     }
 
 
+
+
+
     return (
         <div className={style.login_page}>
             <form className={style.form_login} onSubmit={handleLogin}>
@@ -87,10 +90,10 @@ export function Login() {
                 <button className={style.btn} type="submit">
                     Inicia Sesión
                 </button>
-                
+
                 <hr></hr>
 
-                <Link to="/forgotpassword">¿Haz olvidado tu contraseña?</Link>
+                <Link to="/forgotpassword">¿Haz olvidado tu contraseña?</Link>
 
             </form>
         </div>
