@@ -1,32 +1,49 @@
-import React, { useEffect } from "react"
+import React, { useState } from "react";
+import styles from "./Resetpassword.module.css"; // Importación del módulo
 
 export const Resetpassword = () => {
-    //logica 
+    const [password, setPassword] = useState("");
+    const [confirmpassword, setConfirmPassword] = useState("");
 
-    //visual
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        // Lógica para resetear
+        console.log("Password changed");
+    };
+
     return (
-        <div>
-            <h1>Reset Password</h1>
-                <label>
-                 Nueva contraseña:
-                     <input
-                     value={password}
-                     onChange={e => setPassword(e.target.value)}
-                     />
-                </label>
+        <div className={styles.forgotContainer}>
+            <div className={styles.forgotBox}>
+                <h1 className={styles.title}>Reset Password</h1>
+                
+                <form onSubmit={handleSubmit}>
+                    <label className={styles.label}>
+                        Nueva contraseña:
+                        <input
+                            type="password"
+                            className={styles.input}
+                            value={password}
+                            onChange={e => setPassword(e.target.value)}
+                            required
+                        />
+                    </label>
 
-                <label>
-                 Confirmar contraseña:
-                     <input
-                     value={confirmpassword}
-                     onChange={e => setConfirmPassword(e.target.value)}
-                 />
-                </label>
-            
-                 <button type="submit">
-                 Reset
-                 </button>
-
+                    <label className={styles.label}>
+                        Confirmar contraseña:
+                        <input
+                            type="password"
+                            className={styles.input}
+                            value={confirmpassword}
+                            onChange={e => setConfirmPassword(e.target.value)}
+                            required
+                        />
+                    </label>
+                
+                    <button type="submit" className={styles.button}>
+                        Reset
+                    </button>
+                </form>
+            </div>
         </div>
     );
-}; 
+};
