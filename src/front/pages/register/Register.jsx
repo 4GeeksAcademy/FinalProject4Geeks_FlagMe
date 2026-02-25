@@ -43,8 +43,7 @@ export function Register() {
     }
   }
 
-
-  return (
+return (
     <div className={style.register_page}>
       <form className={style.form_register} onSubmit={createUser}>
         <div className={style.tabs}>

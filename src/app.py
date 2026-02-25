@@ -10,6 +10,9 @@ from api.utils import APIException, generate_sitemap
 from api.models import db
 from api.routes import api
 from api.user.routes import user
+from api.user.likes.routes import likes
+from api.user.rejections.routes import rejections
+from api.user.matches.routes import matches
 from api.admin import setup_admin
 from api.commands import setup_commands
 
@@ -47,6 +50,15 @@ app.register_blueprint(api, url_prefix='/api')
 
 # Add all endpoints form the API with a "user" prefix
 app.register_blueprint(user, url_prefix='/api/user')
+
+# Add all endpoints form the API with a "likes" prefix
+app.register_blueprint(likes, url_prefix='/api/user/likes')
+
+# Add all endpoints form the API with a "rejections" prefix
+app.register_blueprint(rejections, url_prefix='/api/user/rejections')
+
+# Add all endpoints form the API with a "matches" prefix
+app.register_blueprint(matches, url_prefix='/api/user/matches')
 
 # Handle/serialize errors like a JSON object
 
