@@ -1,7 +1,7 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import style from "./Chat.module.css";
+import style from "./Match.module.css";
 
-export const Chat = () => {
+export const Match = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -9,9 +9,7 @@ export const Chat = () => {
   const isMatch = location.pathname.includes("/match");
 
   return (
-    <div className={style.chatContainer}>
-
-      {/* HEADER CON SWITCH */}
+    <div className={style.matchContainer}>
       <div className={style.switchHeader}>
         <div
           className={`${style.switchItem} ${isChat ? style.active : ""}`}
@@ -30,22 +28,9 @@ export const Chat = () => {
         </div>
       </div>
 
-      {/* LISTA VISUAL DE CHAT */}
-      <div className={style.chatList}>
-        <div className={style.chatItem}>
-          <div className={style.avatarWrapper}>
-            <div className={style.avatar}></div>
-            <span className={style.onlineDot}></span>
-          </div>
+      <div className={style.matchContent}>
+        {/* Aquí iria la lógica... SI TUVIERA UNA! */}
 
-          <div className={style.chatInfo}>
-            <div className={style.topRow}>
-              <h4>Carla Rodriguez</h4>
-              <span className={style.time}>7:43pm</span>
-            </div>
-            <p className={style.lastMessage}>¿Cómo te va?</p>
-          </div>
-        </div>
       </div>
 
     </div>

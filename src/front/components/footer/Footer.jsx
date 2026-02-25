@@ -24,21 +24,13 @@ export const Footer = () => {
         // Navegar a home
         navigate("/")
         break;
-      case 'search':
-        // Abrir búsqueda
-        navigate("/search")
-        break;
       case 'flag':
         // Ver banderas/marcadores
-        alert("Mostrando marcadores/banderas");
+        navigate("/flag")
         break;
       case 'message':
         // Abrir mensajería
         navigate("/chat")
-        break;
-      case 'settings':
-        // Abrir configuración
-        navigate("/configuration")
         break;
     }
   };
@@ -53,16 +45,6 @@ export const Footer = () => {
           title="Inicio"
         >
           <i className="fas fa-home"></i>
-          <span className={style.iconLabel}></span>
-        </div>
-        
-        {/* Icono 2: Search (Búsqueda) */}
-        <div 
-          className={`${style.icon} ${activeIcon === 'search' ? style.active : ''}`}
-          onClick={() => handleIconClick('search')}
-          title="Buscar"
-        >
-          <i className="fas fa-search"></i>
           <span className={style.iconLabel}></span>
         </div>
         
@@ -83,16 +65,6 @@ export const Footer = () => {
           title="Mensajes"
         >
           <i className="fas fa-comment-dots"></i>
-          <span className={style.iconLabel}></span>
-        </div>
-        
-        {/* Icono 5: Settings (Opciones/Configuración) */}
-        <div 
-          className={`${style.icon} ${activeIcon === 'settings' ? style.active : ''}`}
-          onClick={() => handleIconClick('settings')}
-          title="Configuración"
-        >
-          <i className="fa-solid fa-ellipsis"></i>
           <span className={style.iconLabel}></span>
         </div>
       </div>
