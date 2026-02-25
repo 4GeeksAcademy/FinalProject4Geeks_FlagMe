@@ -3,9 +3,11 @@ This module contains all the routes related to user management, including regist
 It uses the Supabase client to interact with the database and handle authentication.
 """
 import re
+import os
 
 from flask import request, jsonify, Blueprint
 from flask_cors import CORS
+from supabase import create_client
 
 # Import the supabase client
 from api.supabase import supabase
@@ -15,16 +17,44 @@ user = Blueprint('user_api', __name__)
 # Allow CORS requests to this API
 CORS(user)
 
-# Supabase endpoints
+# Create a separate Supabase client with anon key to bypass RLS for fetching all profiles
+supabase_anon_url = os.getenv("SUPABASE_URL")
+supabase_anon_key = os.getenv("SUPABASE_ANON_KEY")
+supabase_anon = None
+if supabase_anon_url and supabase_anon_key:
+    supabase_anon = create_client(supabase_anon_url, supabase_anon_key)
+
+# Supabase endoints
 
 # Get all profiles
 
 
 @user.route('/', methods=['GET'])
 def get_users():
-    response = supabase.table('profiles').select('*').execute()
-    return jsonify(response.data), 200
+    try:
+        # Use anon client to bypass RLS filtering by current user
+        client = supabase_anon if supabase_anon else supabase
+        response = client.table('profiles').select('*').execute()
+        # response may be an object with .data or a dict; handle both
+        data = None
+        if hasattr(response, 'data'):
+            data = response.data
+        elif isinstance(response, dict):
+            data = response.get('data')
+        else:
+            data = response
 
+        if data is None:
+            data = []
+
+        print(f'[DEBUG] Total users from Supabase: {len(data)}')
+        for user in data:
+            print(f'[DEBUG] User: id={user.get("id")}, name={user.get("name")}, email={user.get("email")}, is_active={user.get("is_active")}')
+
+        return jsonify(data), 200
+    except Exception as e:
+        print('Error fetching profiles from Supabase:', e)
+        return jsonify({"error": str(e)}), 500
 
 # Create a new profile
 @user.route('/', methods=['POST'])

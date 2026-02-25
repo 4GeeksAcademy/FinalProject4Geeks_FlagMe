@@ -21,10 +21,11 @@
 
 .iconsContainer {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 70px;
   align-items: center;
   width: 100%;
-  max-width: 500px;
+  max-width: 350px;
 }
 
 .icon {
