@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import styles from "./Resetpassword.module.css"; // Importación del módulo
+import styles from "./ResetPassword.module.css"; // Importación del módulo
 
-export const Resetpassword = () => {
+export const ResetPassword = () => {
     const [password, setPassword] = useState("");
     const [confirmpassword, setConfirmPassword] = useState("");
 

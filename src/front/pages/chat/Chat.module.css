@@ -1,58 +1,77 @@
 .chatContainer {
-  min-height: 100vh;
-  background: #f3f3f3;
+  height: 100vh;
+  background-color: #f2f2f2;
   display: flex;
   flex-direction: column;
 }
 
-.header {
-  background: #ee4e26;
+/* ================= HEADER SWITCH ================= */
+
+.switchHeader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 110px;
+  background: var(--main-gradient);
   color: white;
   font-size: 32px;
   font-weight: 600;
-  text-align: center;
-  padding: 40px 0 30px;
-  border-bottom-left-radius: 35px;
-  border-bottom-right-radius: 35px;
-  letter-spacing: 1px;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
 }
 
+.switchItem {
+  cursor: pointer;
+  transition: 0.3s ease;
+  opacity: 0.5;
+}
+
+.switchItem:hover {
+  opacity: 0.8;
+}
+
+.active {
+  opacity: 1;
+}
+
+.divider {
+  width: 2px;
+  height: 40px;
+  background-color: white;
+  margin: 0 20px;
+}
+
+/* ================= CHAT LIST ================= */
+
 .chatList {
-  padding: 25px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  padding: 20px;
 }
 
 .chatItem {
   display: flex;
   align-items: center;
-  gap: 15px;
-  padding: 18px 20px;
-  border-radius: 18px;
-  background: #ececec;
-  border: 2px solid #d6d6d6;
+  background-color: white;
+  padding: 15px;
+  border-radius: 20px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: 0.3s ease;
 }
 
 .chatItem:hover {
-  background: #e4e4e4;
-  transform: translateY(-2px);
+  transform: scale(1.02);
 }
 
 .avatarWrapper {
   position: relative;
-  width: 60px;
-  height: 60px;
+  margin-right: 15px;
 }
 
 .avatar {
-  width: 100%;
-  height: 100%;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
-  background: #cfcfcf;
-  object-fit: cover;
+  background-color: #ccc;
 }
 
 .onlineDot {
@@ -61,15 +80,13 @@
   right: 3px;
   width: 14px;
   height: 14px;
-  background: #2ecc71;
+  background-color: #2ecc71;
   border-radius: 50%;
   border: 2px solid white;
 }
 
 .chatInfo {
   flex: 1;
-  display: flex;
-  flex-direction: column;
 }
 
 .topRow {
@@ -79,23 +96,16 @@
 }
 
 .topRow h4 {
-  font-size: 20px;
-  font-weight: 600;
   margin: 0;
+  font-size: 18px;
 }
 
 .time {
   font-size: 14px;
-  color: #777;
+  color: gray;
 }
 
 .lastMessage {
-  margin-top: 5px;
-  font-size: 16px;
-  color: #666;
-  font-weight: 300;
+  margin: 5px 0 0;
+  color: gray;
 }
-.chatItem {
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
-}
-
