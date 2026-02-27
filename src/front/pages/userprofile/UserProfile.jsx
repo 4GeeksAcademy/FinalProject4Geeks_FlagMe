@@ -7,6 +7,10 @@ export function UserProfile() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [openSection, setOpenSection] = useState(null);
+  const toggleSection = (section) => {
+    setOpenSection(prev => prev === section ? null : section);
+  };
 
   useEffect(() => {
     const userData = localStorage.getItem("user");
@@ -92,18 +96,22 @@ export function UserProfile() {
         {/* boton ayuda */}
 
         <div className={style.dropdown}>
-          <div className={style.dropdownHeader} onClick={() => toggleSection("settings")}></div>
+          <div
+            className={style.dropdownHeader}
+            onClick={() => toggleSection("help")}
+          >
             <span>Help</span>
+          </div>
 
-              {openSection === "help" && (
-                <div className={style.dropdownContent}>  
-                  <p><b>Teléfono:</b> +1 809 555 5555</p>
-                  <p><b>Email:</b> ayuda@flagme.com</p>
-               </div>
-              )}
-         </div>
+          {openSection === "help" && (
+            <div className={style.dropdownContent}>
+              <p><b>Teléfono:</b> +1 809 555 5555</p>
+              <p><b>Email:</b> ayuda@flagme.com</p>
+            </div>
+          )}
+        </div>
 
-        
+
 
         <button className={style.box}>
           <FaUserEdit className={style.icon} />

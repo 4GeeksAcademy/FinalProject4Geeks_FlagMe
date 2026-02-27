@@ -16,16 +16,6 @@ export const Home = () => {
             fetchUsers(currentUser?.id);
       }, [currentUser]);
 
-      useEffect(() => {
-            const handler = () => {
-                  const userStr = localStorage.getItem("user");
-                  const newUser = userStr ? JSON.parse(userStr) : null;
-                  setCurrentUser(newUser);
-            };
-            window.addEventListener('userLoggedIn', handler);
-            return () => window.removeEventListener('userLoggedIn', handler);
-      }, []);
-
       const fetchUsers = async (currentUserId) => {
             try {
                   setLoading(true);
