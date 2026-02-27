@@ -1,4 +1,4 @@
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import style from "./Chat.module.css";
 
 export const Chat = () => {
@@ -32,20 +32,26 @@ export const Chat = () => {
 
       {/* LISTA VISUAL DE CHAT */}
       <div className={style.chatList}>
-        <div className={style.chatItem}>
-          <div className={style.avatarWrapper}>
-            <div className={style.avatar}></div>
-            <span className={style.onlineDot}></span>
-          </div>
 
-          <div className={style.chatInfo}>
-            <div className={style.topRow}>
-              <h4>Carla Rodriguez</h4>
-              <span className={style.time}>7:43pm</span>
+        <Link to={`/chat/2`}>
+
+          <div className={style.chatItem}>
+            <div className={style.avatarWrapper}>
+              <div className={style.avatar}></div>
+              <span className={style.onlineDot}></span>
             </div>
-            <p className={style.lastMessage}>¿Cómo te va?</p>
+
+            <div className={style.chatInfo}>
+              <div className={style.topRow}>
+                <h4>Carla Rodriguez</h4>
+                <span className={style.time}>7:43pm</span>
+              </div>
+              <p className={style.lastMessage}>¿Cómo te va?</p>
+            </div>
           </div>
-        </div>
+          
+        </Link>
+
       </div>
 
     </div>
