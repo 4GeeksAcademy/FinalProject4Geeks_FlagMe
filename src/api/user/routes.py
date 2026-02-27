@@ -94,13 +94,23 @@ def login():
         response = supabase.auth.sign_in_with_password({"email": email, "password": password})
         if response.user is None:
             return jsonify({"error": "User not found or incorrect password"}), 400
+        
+        # Fetch the complete profile from the profiles table
+        profile_response = supabase.table('profiles').select('*').eq('id', response.user.id).execute()
+        profile_data = profile_response.data[0] if profile_response.data else {}
+        
+        # Merge auth user data with profile data
+        user_data = {
+            'id': response.user.id,
+            'email': response.user.email,
+            'user_metadata': response.user.user_metadata,
+            **profile_data  # Include all profile fields
+        }
+        
         return jsonify({
             'message': 'Login successful',
-            'user': {
-                'id': response.user.id,
-                'email': response.user.email,
-                'user_metadata': response.user.user_metadata
-            }
+            'user': user_data,
+            'token': response.session.access_token
         }), 200
     finally:
         supabase.auth.sign_out()

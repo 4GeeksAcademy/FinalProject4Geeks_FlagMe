@@ -1,7 +1,11 @@
 import style from "./Home.module.css";
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import useGlobalReducer from "../../hooks/useGlobalReducer";
 
 export const Home = () => {
+      const navigate = useNavigate();
+      const { dispatch, store } = useGlobalReducer();
       const [currentIndex, setCurrentIndex] = useState(0);
       const [images, setImages] = useState([]);
       const [loading, setLoading] = useState(true);
@@ -11,6 +15,29 @@ export const Home = () => {
             const userStr = localStorage.getItem("user");
             return userStr ? JSON.parse(userStr) : null;
       });
+
+      // Verificar autenticación del usuario
+      useEffect(() => {
+            const userData = localStorage.getItem("user");
+            const token = localStorage.getItem("token");
+
+            // Si no hay sesión activa, redirigir al login
+            if (!userData || !token) {
+                  navigate("/login", { replace: true });
+                  return;
+            }
+
+            try {
+                  const parsedUser = JSON.parse(userData);
+                  setCurrentUser(parsedUser);
+            } catch (error) {
+                  console.error("Error al parsear datos del usuario:", error);
+                  // Si hay error al parsear, limpiar datos y redirigir al login
+                  localStorage.removeItem("user");
+                  localStorage.removeItem("token");
+                  navigate("/login", { replace: true });
+            }
+      }, [navigate]);
 
       useEffect(() => {
             fetchUsers(currentUser?.id);
@@ -27,7 +54,12 @@ export const Home = () => {
 
                   console.log('Current user ID:', currentUserId);
 
-                  const response = await fetch(`${backendUrl}/api/user/`);
+                  let url = `${backendUrl}/api/user/`;
+                  if (currentUserId) {
+                        url = `${backendUrl}/api/user/${currentUserId}/feed`;
+                  }
+
+                  const response = await fetch(url);
 
                   const data = await response.json();
                   console.log('Usuarios recibidos:', data);
@@ -66,7 +98,12 @@ export const Home = () => {
       };
 
       const handleAccept = () => {
-            console.log(`Aceptaste a ${images[currentIndex]?.name}`);
+            const acceptedUser = images[currentIndex];
+            console.log(`Aceptaste a ${acceptedUser?.name}`);
+            dispatch({
+                  type: 'add_like',
+                  payload: acceptedUser
+            });
             removeCurrentImage();
       };
 

@@ -12,7 +12,8 @@ export const initialStore=()=>{
         title: "Do my homework",
         background: null,
       }
-    ]
+    ],
+    likes: []
   }
 }
 
@@ -31,6 +32,16 @@ export default function storeReducer(store, action = {}) {
       return {
         ...store,
         todos: store.todos.map((todo) => (todo.id === id ? { ...todo, background: color } : todo))
+      };
+    case 'add_like':
+      return {
+        ...store,
+        likes: [...store.likes, action.payload]
+      };
+    case 'remove_like':
+      return {
+        ...store,
+        likes: store.likes.filter(like => like.id !== action.payload)
       };
     default:
       throw Error('Unknown action.');
