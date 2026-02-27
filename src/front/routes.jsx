@@ -9,14 +9,17 @@ import { Layout } from "./pages/Layout";
 import { Home } from "./pages/home/Home";
 import { Single } from "./pages/Single";
 import { Demo } from "./pages/Demo";
-import { Search } from "./pages/search/Search";
 import { Chat } from "./pages/chat/Chat";
-import { Configuration } from "./pages/configuration/Configuration";
 import { UserChat } from "./pages/userChat/UserChat";
 import { Register } from "./pages/register/Register";
 import { Login } from "./pages/login/Login";
 import { UserProfile } from "./pages/userprofile/UserProfile";
 import { ResetPassword } from "./pages/resetpassword/ResetPassword";
+import { ForgotPassword } from "./pages/forgotpassword/ForgotPassword";
+import { ResetPassword } from "./pages/resetpassword/ResetPassword";
+
+import { Flag } from "./pages/flag/Flag";
+import { Match } from "./pages/match/Match";
 
 export const router = createBrowserRouter(
     createRoutesFromElements(
@@ -31,15 +34,16 @@ export const router = createBrowserRouter(
 
         {/* Nested Routes: Defines sub-routes within the BaseHome component. */}
         <Route path= "/" element={<Home />} />
-        <Route path= "/search" element={<Search />} />
         <Route path= "/chat" element={<Chat />} />
-        <Route path= "/configuration" element={<Configuration />} />
         <Route path="/single/:theId" element={ <Single />} />  {/* Dynamic route for single items */}
         <Route path="/demo" element={<Demo />} />
         <Route path="/chat/:id" element={<UserChat/>} />
         <Route path="/register" element={<Register></Register>}></Route>
         <Route path="/login" element={<Login></Login>}></Route>
+        <Route path="/flag" element={<Flag></Flag>}></Route>
+        <Route path="/match" element={<Match></Match>}></Route>
         <Route path="/userprofile" element={<UserProfile></UserProfile>}></Route>
+        <Route path="/forgotpassword" element={<ForgotPassword></ForgotPassword>}></Route>
         <Route path="/resetpassword" element={<ResetPassword></ResetPassword>}></Route>
       </Route>
     )

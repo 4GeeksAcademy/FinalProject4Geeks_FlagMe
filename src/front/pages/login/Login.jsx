@@ -1,6 +1,6 @@
 import style from "./Login.module.css";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 export function Login() {
@@ -40,10 +40,22 @@ export function Login() {
 
             navigate("/");
 
+            // notify other parts of the app that a user logged in (after navigation)
+            setTimeout(() => {
+                try {
+                    window.dispatchEvent(new Event('userLoggedIn'));
+                } catch (e) {
+                    // ignore if dispatch fails in some environments
+                }
+            }, 100);
+
         } catch (error) {
             console.log(error);
         }
     }
+
+
+
 
 
     return (
@@ -87,6 +99,11 @@ export function Login() {
                 <button className={style.btn} type="submit">
                     Inicia Sesión
                 </button>
+
+                <hr></hr>
+
+                <Link to="/forgotpassword">¿Haz olvidado tu contraseña?</Link>
+
             </form>
         </div>
     );

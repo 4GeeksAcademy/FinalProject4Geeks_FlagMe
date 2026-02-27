@@ -12,12 +12,12 @@ export const ResetPassword = () => {
     };
 
     return (
-        <div className={styles.forgotContainer}>
-            <div className={styles.forgotBox}>
-                <h1 className={styles.title}>Reset Password</h1>
+        <div className={styles.resetContainer}>
+            <div className={styles.resetBox}>
+                <h1 className={styles.resetBox}>Reset Password</h1>
                 
                 <form onSubmit={handleSubmit}>
-                    <label className={styles.label}>
+                    <label className={styles.resetBox}>
                         Nueva contraseña:
                         <input
                             type="password"
@@ -28,18 +28,18 @@ export const ResetPassword = () => {
                         />
                     </label>
 
-                    <label className={styles.label}>
+                    <label className={styles.resetBox}>
                         Confirmar contraseña:
                         <input
                             type="password"
-                            className={styles.input}
+                            className={styles.resetBox}
                             value={confirmpassword}
                             onChange={e => setConfirmPassword(e.target.value)}
                             required
                         />
                     </label>
                 
-                    <button type="submit" className={styles.button}>
+                    <button type="submit" className={styles.resetButton}>
                         Reset
                     </button>
                 </form>
