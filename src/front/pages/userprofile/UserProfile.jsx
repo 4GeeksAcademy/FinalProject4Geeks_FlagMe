@@ -240,15 +240,6 @@ export function UserProfile() {
       {/* MENU */}
       <div className={style.menu}>
 
-        {/* boton perfil */}
-
-        <div className={style.dropdown}>
-          <div className={style.dropdownHeader} onClick={() => toggleSection("settings")}></div>
-            <span>Profile</span>
-            </div>
-
-            // El contenido del perfil está por ser aclarado.
-
         {/* boton ayuda */}
 
         <div className={style.dropdown}>
@@ -267,13 +258,6 @@ export function UserProfile() {
           )}
         </div>
 
-              {openSection === "help" && (
-                <div className={style.dropdownContent}>  
-                  <p><b>FAQ</b> +1 809 555 5555</p>
-                  <p><b>Terminos y condiciones</b> ayuda@flagme.com</p>
-               </div>
-              )}
-         </div>
 
 
         <button
