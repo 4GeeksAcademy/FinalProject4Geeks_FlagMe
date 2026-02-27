@@ -14,6 +14,7 @@ import { UserChat } from "./pages/userChat/UserChat";
 import { Register } from "./pages/register/Register";
 import { Login } from "./pages/login/Login";
 import { UserProfile } from "./pages/userprofile/UserProfile";
+import { ResetPassword } from "./pages/resetpassword/ResetPassword";
 import { ForgotPassword } from "./pages/forgotpassword/ForgotPassword";
 import { ResetPassword } from "./pages/resetpassword/ResetPassword";
 
