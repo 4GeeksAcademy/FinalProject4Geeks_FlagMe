@@ -40,6 +40,15 @@ export function Login() {
 
             navigate("/");
 
+            // notify other parts of the app that a user logged in (after navigation)
+            setTimeout(() => {
+                try {
+                    window.dispatchEvent(new Event('userLoggedIn'));
+                } catch (e) {
+                    // ignore if dispatch fails in some environments
+                }
+            }, 100);
+
         } catch (error) {
             console.log(error);
         }

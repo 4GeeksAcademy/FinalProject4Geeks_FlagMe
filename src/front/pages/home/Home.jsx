@@ -1,87 +1,174 @@
 import style from "./Home.module.css";
-import { useState, useEffect } from "react";
-
+import { useState, useEffect, useRef } from "react";
 
 export const Home = () => {
-  const [users, setUsers] = useState([]);
+      const [currentIndex, setCurrentIndex] = useState(0);
+      const [images, setImages] = useState([]);
+      const [loading, setLoading] = useState(true);
+      const scrollContainerRef = useRef(null);
 
-  const sampleUsers = [
-    {
-      id: 1,
-      name: "Naomí",
-      age: 21,
-      location: "New York, USA",
-      image: "https://images.unsplash.com/photo-1494790108755-2616b786d4d9",
-      online: true
-    },
-    {
-      id: 2,
-      name: "Martin",
-      age: 23,
-      location: "New York, USA",
-      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e",
-      online: true
-    },
-    {
-      id: 3,
-      name: "Samara",
-      age: 22,
-      location: "New York, USA",
-      image: "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df",
-      online: true
-    },
-    {
-      id: 4,
-      name: "Josefina",
-      age: 21,
-      location: "New York, USA",
-      image: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f",
-      online: true
-    }
-  ];
+      const [currentUser, setCurrentUser] = useState(() => {
+            const userStr = localStorage.getItem("user");
+            return userStr ? JSON.parse(userStr) : null;
+      });
 
-  useEffect(() => {
-    setUsers(sampleUsers);
-  }, []);
+      useEffect(() => {
+            fetchUsers(currentUser?.id);
+      }, [currentUser]);
 
-  const handleUserClick = (user) => {
-    console.log("Usuario:", user.name);
-  };
+      const fetchUsers = async (currentUserId) => {
+            try {
+                  setLoading(true);
+                  const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-  return (
-    <div className={style.homeContainer}>
-      <div className={style.grid}>
-        {users.map(user => (
-          <div
-            key={user.id}
-            className={style.card}
-            onClick={() => handleUserClick(user)}
-          >
-            {user.online && <span className={style.onlineDot} />}
+                  if (!backendUrl) {
+                        throw new Error('VITE_BACKEND_URL no está configurado.');
+                  }
 
-            <img
-              src={user.image}
-              alt={user.name}
-              className={style.image}
-            />
+                  console.log('Current user ID:', currentUserId);
 
-            <div className={style.gradient} />
+                  const response = await fetch(`${backendUrl}/api/user/`);
 
-            <div className={style.info}>
-              <span className={style.distance}>
-              </span>
+                  const data = await response.json();
+                  console.log('Usuarios recibidos:', data);
 
-              <h3 className={style.name}>
-                {user.name}, {user.age}
-              </h3>
+                  const filteredUsers = Array.isArray(data)
+                        ? data.filter(user => user.id !== currentUserId)
+                        : [];
 
-              <p className={style.location}>
-                {user.location}
-              </p>
+                  const formattedUsers = filteredUsers.map(user => ({
+                        id: user.id,
+                        name: user.name || 'Usuario',
+                        age: user.age || '?',
+                        image: user.profile_pic || 'https://via.placeholder.com/400x400'
+                  }));
+
+                  setImages(formattedUsers);
+            } catch (error) {
+                  console.error('Error fetching users:', error);
+                  alert(`Error al cargar usuarios: ${error.message}`);
+            } finally {
+                  setLoading(false);
+            }
+      };
+
+
+
+      const scrollToImage = (index) => {
+            if (scrollContainerRef.current) {
+                  const containerWidth = scrollContainerRef.current.clientWidth;
+                  scrollContainerRef.current.scrollTo({
+                        left: index * containerWidth,
+                        behavior: 'smooth'
+                  });
+                  setCurrentIndex(index);
+            }
+      };
+
+      const handleAccept = () => {
+            console.log(`Aceptaste a ${images[currentIndex]?.name}`);
+            removeCurrentImage();
+      };
+
+      const handleReject = () => {
+            console.log(`Rechazaste a ${images[currentIndex]?.name}`);
+            removeCurrentImage();
+      };
+
+      const removeCurrentImage = () => {
+            if (images.length > 0) {
+                  const newImages = images.filter((_, index) => index !== currentIndex);
+                  setImages(newImages);
+
+                  if (currentIndex >= newImages.length && newImages.length > 0) {
+                        setCurrentIndex(newImages.length - 1);
+                        setTimeout(() => {
+                              scrollToImage(newImages.length - 1);
+                        }, 50);
+                  }
+            }
+      };
+
+      const handleScroll = (e) => {
+            const container = scrollContainerRef.current;
+            if (container) {
+                  const index = Math.round(container.scrollLeft / container.clientWidth);
+                  setCurrentIndex(index);
+            }
+      };
+
+      useEffect(() => {
+            const container = scrollContainerRef.current;
+            if (container) {
+                  container.addEventListener('scroll', handleScroll);
+                  return () => container.removeEventListener('scroll', handleScroll);
+            }
+      }, []);
+
+      if (loading) {
+            return (
+                  <div className={style.searchContainer}>
+                        <h1>Buscador</h1>
+                        <div className={style.emptyState}>
+                              <h2>Cargando usuarios...</h2>
+                        </div>
+                  </div>
+            );
+      }
+
+      if (images.length === 0) {
+            return (
+                  <div className={style.searchContainer}>
+                        <h1>Buscador</h1>
+                        <div className={style.emptyState}>
+                              <h2>¡No hay más perfiles!</h2>
+                              <p>Vuelve más tarde para descubrir nuevas personas.</p>
+                        </div>
+                  </div>
+            );
+      }
+
+      return (
+            <div className={style.searchContainer}>
+                  <h1>Buscador</h1>
+
+                  <div className={style.scrollContainer}>
+                        <div
+                              ref={scrollContainerRef}
+                              className={style.imageWrapper}
+                        >
+                              {images.map((item, index) => (
+                                    <div
+                                          key={item.id}
+                                          className={style.imageCard}
+                                          style={{ backgroundImage: `url(${item.image})` }}
+                                    >
+                                          <div className={style.imageCardContent}>
+                                                <div className={style.imageName}>{item.name}</div>
+                                                <div className={style.imageAge}>{item.age} años</div>
+                                          </div>
+                                    </div>
+                              ))}
+                        </div>
+                  </div>
+
+                  <div className={style.actionsContainer}>
+                        <button
+                              className={`${style.actionButton} ${style.rejectButton}`}
+                              onClick={handleReject}
+                              aria-label="Rechazar"
+                        >
+                              ✕
+                        </button>
+
+                        <button
+                              className={`${style.actionButton} ${style.acceptButton}`}
+                              onClick={handleAccept}
+                              aria-label="Aceptar"
+                        >
+                              ✓
+                        </button>
+                  </div>
             </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+      );
 };
