@@ -132,6 +132,45 @@ def get_user(user_id):
         '*').eq('id', user_id).execute()
     return jsonify(response.data), 200
 
+# Get feed of profiles for a user, excluding already liked, matched, or rejected users
+
+
+@user.route('/<string:user_id>/feed', methods=['GET'])
+def get_feed_users(user_id):
+    try:
+        excluded_ids = {user_id}
+
+        likes_response = supabase.table('likes').select(
+            'to_user_id').eq('from_user_id', user_id).execute()
+        for like in likes_response.data:
+            excluded_ids.add(like['to_user_id'])
+
+        matches_response = supabase.table('matches').select(
+            'user_1_id, user_2_id').or_(f"user_1_id.eq.{user_id},user_2_id.eq.{user_id}").execute()
+        for match in matches_response.data:
+            if match['user_1_id'] == user_id:
+                excluded_ids.add(match['user_2_id'])
+            elif match['user_2_id'] == user_id:
+                excluded_ids.add(match['user_1_id'])
+
+        rejections_response = supabase.table('rejections').select(
+            'user_id, rejected_user_id').or_(f"user_id.eq.{user_id},rejected_user_id.eq.{user_id}").execute()
+        for rejection in rejections_response.data:
+            if rejection['user_id'] == user_id:
+                excluded_ids.add(rejection['rejected_user_id'])
+            elif rejection['rejected_user_id'] == user_id:
+                excluded_ids.add(rejection['user_id'])
+
+        profiles_response = supabase.table('profiles').select('*').execute()
+        feed_profiles = [
+            profile for profile in profiles_response.data
+            if profile.get('id') not in excluded_ids
+        ]
+
+        return jsonify(feed_profiles), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+
 # Update a profile by ID
 
 
