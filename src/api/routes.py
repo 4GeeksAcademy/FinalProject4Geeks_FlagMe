@@ -78,3 +78,58 @@ def reset_password():
             "error": "No se pudo restablecer la contraseña",
             "details": str(e)
         }), 500
+
+# Forgotpasword
+@api.route('/forgot', methods=['POST'])
+def forgot_password():
+    data = request.get_json()
+    email = data.get('email')
+    print("Solicitud de recuperación recibida para:", email)
+    if not email:
+        print("Error: email no proporcionado.")
+        return jsonify({"error": "El email es requerido"}), 400
+    try:
+        supabase.auth.reset_password_for_email(email)
+        return jsonify("Enviado"), 200
+    except Exception as e:
+        print(" Error al enviar email de recuperación:", str(e))
+        return jsonify({
+            "error": "No se pudo enviar el email de recuperación",
+            "details": str(e)
+        }), 500
+
+
+# Resetpasword
+@api.route('/reset', methods=['POST'])
+def reset_password():
+    data = request.get_json()
+    new_password = data.get('new_password')
+    access_token = data.get('access_token')
+    email = data.get('email')
+    if not new_password or not access_token:
+        return jsonify({"error": "Faltan campos obligatorios"}), 400
+    if len(new_password) < 6:
+        return jsonify({"error": "La contraseña debe tener al menos 6 caracteres"}), 400
+    try:
+        print(type(access_token))
+        # Verificar token de recuperación
+        user_response = supabase.auth.verify_otp({
+            "email": email,
+            "token": access_token,
+            "type": "recovery"
+        })
+        # Actualizar contraseña
+        response = supabase.auth.update_user({
+            "password": new_password
+        })
+        supabase.auth.sign_out()
+        return jsonify({
+            "message": "Contraseña actualizada correctamente",
+            "supabase_response": str(response)
+        }), 200
+    except Exception as e:
+        return jsonify({
+            "error": "No se pudo restablecer la contraseña",
+            "details": str(e)
+        }), 500
+        
