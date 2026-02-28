@@ -16,7 +16,6 @@ import { Login } from "./pages/login/Login";
 import { UserProfile } from "./pages/userprofile/UserProfile";
 import { ResetPassword } from "./pages/resetpassword/ResetPassword";
 import { ForgotPassword } from "./pages/forgotpassword/ForgotPassword";
-import { ResetPassword } from "./pages/resetpassword/ResetPassword";
 
 import { Flag } from "./pages/flag/Flag";
 import { Match } from "./pages/match/Match";
