@@ -206,12 +206,15 @@ def delete_user(user_id):
         return jsonify({"error": str(e)}), 400
 
 
+
 @user.route('/forgot', methods=['POST'])
 def forgot_password():
     data = request.get_json()
     email = data.get('email')
 
+
     print("Solicitud de recuperacion recibida para:", email)
+
 
     if not email:
         print("Error: email no proporcionado.")

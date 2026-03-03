@@ -18,7 +18,7 @@ export const ForgotPassword = () => {
             }),
         });
 
-        console.log("email enviado")
+        console.log("email")
     }
 
     return (
