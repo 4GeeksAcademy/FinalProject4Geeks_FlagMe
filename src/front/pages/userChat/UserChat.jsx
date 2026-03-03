@@ -1,58 +1,66 @@
+import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
-import { useNavigate, useLocation, useParams } from "react-router-dom";
 import styles from "./UserChat.module.css";
+import useGlobalReducer from "../../hooks/useGlobalReducer";
 
 export function UserChat() {
     const [text, setText] = useState("");
     const navigate = useNavigate();
-    const location = useLocation();
-    
-    // Extraemos los posibles IDs de la URL según la ruta definida en App.jsx
-    const { chatId, matchId } = useParams();
-    const activeId = chatId || matchId;
+    const { store, dispatch } = useGlobalReducer();
+    const { chatId } = useParams();
 
-    // Lógica para saber en qué sección estamos
-    const isChat = location.pathname.includes("/chat");
-    const isMatch = location.pathname.includes("/match");
+    const chatInfo = store.chats?.find(chat => String(chat.id) === String(chatId));
 
-    const handleBack = () => {
-        navigate(-1); // Regresa a la pantalla anterior
-    };
+    // ✅ Mensajes del chat actual desde el store
+    const messages = store.chatMessages?.[chatId] || [];
+
+    const handleBack = () => navigate(-1);
 
     const handleSendMessage = () => {
         if (text.trim()) {
-            console.log(`Enviando mensaje a ${activeId}: ${text}`);
-            setText(""); // Limpiar input tras enviar
+            dispatch({
+                type: "send_message",
+                payload: {
+                    chatId,
+                    message: {
+                        id: Date.now(),
+                        text: text.trim(),
+                        from: "user",
+                    },
+                },
+            });
+            setText("");
         }
     };
 
     return (
         <div className={styles.chatContainer}>
-            {/* Cabecera Estilo WhatsApp */}
+
+            {/* Cabecera */}
             <div className={styles.upperName}>
-                <button className={styles.backButton} onClick={handleBack}>
-                    ←
-                </button>
+                <button className={styles.backButton} onClick={handleBack}>←</button>
                 <div>
-                    <h1>{isMatch ? "Match con:" : "Chat:"} {activeId}</h1>
+                    <h1>{chatInfo?.name || `Chat ${chatId || "desconocido"}`}</h1>
                     <span className={styles.status}>En línea</span>
                 </div>
             </div>
 
             {/* Zona de Mensajes */}
             <div className={styles.chatMessages}>
-                
-                {/* Mensaje Recibido */}
-                <div className={`${styles.messageGroup} ${styles.otherMessage}`}>
-                    <span className={styles.nameLabel}>Usuario {activeId}</span>
-                    <div>¡Hola! ¿Cómo vas con el código? 🚀</div>
-                </div>
-
-                {/* Mensaje Enviado */}
-                <div className={`${styles.messageGroup} ${styles.userMessage}`}>
-                    <span className={styles.nameLabel} style={{ color: '#075e54' }}>Tú</span>
-                </div>
-
+                {messages.map(msg => (
+                    <div
+                        key={msg.id}
+                        className={`${styles.messageGroup} ${msg.from === "user" ? styles.userMessage : styles.otherMessage}`}
+                    >
+                        <span
+                            className={styles.nameLabel}
+                            style={{ color: msg.from === "user" ? "#075e54" : "#128c7e" }}
+                        >
+                            {msg.from === "user" ? "Tú" : chatInfo?.name || `Usuario ${chatId}`}
+                        </span>
+                        <div>{msg.text}</div>
+                    </div>
+                ))}
             </div>
 
             {/* Barra de Entrada */}
@@ -63,16 +71,17 @@ export function UserChat() {
                     placeholder="Escribe un mensaje"
                     value={text}
                     onChange={(e) => setText(e.target.value)}
-                    onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
+                    onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
                 />
-                <button 
-                    className={styles.sendButton} 
+                <button
+                    className={styles.sendButton}
                     onClick={handleSendMessage}
                     disabled={!text.trim()}
                 >
                     ➤
                 </button>
             </div>
+
         </div>
     );
 }

@@ -18,7 +18,6 @@ import { ResetPassword } from "./pages/resetpassword/ResetPassword";
 import { ForgotPassword } from "./pages/forgotpassword/ForgotPassword";
 
 import { Flag } from "./pages/flag/Flag";
-import { Match } from "./pages/match/Match";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -38,7 +37,6 @@ export const router = createBrowserRouter(
       <Route path="/register" element={<Register></Register>}></Route>
       <Route path="/login" element={<Login></Login>}></Route>
       <Route path="/flag" element={<Flag></Flag>}></Route>
-      <Route path="/match" element={<Match></Match>}></Route>
       <Route path="/userprofile" element={<UserProfile></UserProfile>}></Route>
       <Route path="/forgotpassword" element={<ForgotPassword></ForgotPassword>}></Route>
       <Route path="/resetpassword" element={<ResetPassword></ResetPassword>}></Route>
