@@ -58,7 +58,8 @@ def create_user():
     if not password:
         return jsonify({"error": "Password is required"}), 400
 
-    auth_response = supabase.auth.sign_up({"email": email, "password": password})
+    auth_response = supabase.auth.sign_up(
+        {"email": email, "password": password})
 
     if auth_response.user is None:
         return jsonify({"error": "No se pudo registrar el usuario"}), 400
@@ -66,7 +67,8 @@ def create_user():
     usuario_data = {'id': auth_response.user.id, 'email': email}
 
     try:
-        insert_response = supabase.table('profiles').upsert(usuario_data).execute()
+        insert_response = supabase.table(
+            'profiles').upsert(usuario_data).execute()
         print("Insert response: ", insert_response)
         return jsonify(insert_response.data), 201
     except Exception as e:
@@ -91,16 +93,29 @@ def login():
         return jsonify({"error": "Password is required"}), 400
 
     try:
-        response = supabase.auth.sign_in_with_password({"email": email, "password": password})
+        response = supabase.auth.sign_in_with_password(
+            {"email": email, "password": password})
         if response.user is None:
             return jsonify({"error": "User not found or incorrect password"}), 400
+
+        # Fetch the complete profile from the profiles table
+        profile_response = supabase.table('profiles').select(
+            '*').eq('id', response.user.id).execute()
+        profile_data = profile_response.data[0] if profile_response.data else {
+        }
+
+        # Merge auth user data with profile data
+        user_data = {
+            'id': response.user.id,
+            'email': response.user.email,
+            'user_metadata': response.user.user_metadata,
+            **profile_data  # Include all profile fields
+        }
+
         return jsonify({
             'message': 'Login successful',
-            'user': {
-                'id': response.user.id,
-                'email': response.user.email,
-                'user_metadata': response.user.user_metadata
-            }
+            'user': user_data,
+            'token': response.session.access_token
         }), 200
     finally:
         supabase.auth.sign_out()
@@ -189,3 +204,64 @@ def delete_user(user_id):
         return jsonify({"message": "User deleted successfully"}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 400
+
+
+@user.route('/forgot', methods=['POST'])
+def forgot_password():
+    data = request.get_json()
+    email = data.get('email')
+
+    print("Solicitud de recuperacion recibida para:", email)
+
+    if not email:
+        print("Error: email no proporcionado.")
+        return jsonify({"error": "el email es requerido"}), 400
+
+    try:
+        supabase.auth.reset_password_for_email(email)
+        return jsonify("Enviado"), 200
+
+    except Exception as e:
+        print(" Error al enviar email de recuperación:", str(e))
+        return jsonify({"error": "No se pudo enviar el email de recuperación", "details":
+                        str(e)}), 500
+
+
+@user.route('/reset', methods=['POST'])
+def reset_password():
+    data = request.get_json()
+    new_password = data.get('new_password')
+    # token que viene del email de Supabase
+    access_token = data.get('access_token')
+    email = data.get('email')
+    if not new_password or not access_token:
+        return jsonify({"error": "Faltan campos obligatorios"}), 400
+
+    if len(new_password) < 6:
+        return jsonify({"error": "La contraseña debe tener al menos 6 caracteres"}), 400
+
+    try:
+        print(type(access_token))
+        # Usar el access_token para autenticar temporalmente al usuario
+        user_response = supabase.auth.verify_otp({
+            "email": email,
+            "token": access_token,
+            "type": "recovery"
+        })
+
+        # Actualizar la contraseña
+        response = supabase.auth.update_user({"password": new_password})
+
+        supabase.auth.sign_out()
+
+        return jsonify({
+            "message": "Contraseña actualizada correctamente",
+            "supabase_response": str(response)
+        }), 200
+
+    except Exception as e:
+
+        return jsonify({
+            "error": "No se pudo restablecer la contraseña",
+            "details": str(e)
+        }), 500

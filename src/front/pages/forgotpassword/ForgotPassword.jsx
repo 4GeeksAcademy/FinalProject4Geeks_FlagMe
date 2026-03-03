@@ -4,12 +4,22 @@ import styles from "./ForgotPassword.module.css"
 export const ForgotPassword = () => {
     const [email, setEmail] = useState("")
 
-    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-  redirectTo: 'https://example.com/update-password',
-})
-    const { data, error } = await supabase.auth.updateUser({
-  password: new_password
-})c
+    async function handleClick() {
+
+        const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
+        const response = await fetch(`${backendUrl}/api/user/forgot`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: email,
+            }),
+        });
+
+        console.log("email enviado")
+    }
 
     return (
         <div className={styles.forgotContainer}>
@@ -23,12 +33,9 @@ export const ForgotPassword = () => {
                         onChange={e => setEmail(e.target.value)}
                     />
                 </label>
-                <button className={styles.button} type="submit" disabled={loading}>
-            {loading ? "Enviando..." : "Enviar"}
-          </button>
-        </form>
-
-        {message && <p>{message}</p>}
+                <button onClick={() => handleClick()} className={styles.button} type="submit">
+                    Enviar
+                </button>
             </div>
         </div>
     )
