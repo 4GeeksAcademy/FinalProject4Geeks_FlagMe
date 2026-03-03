@@ -5,9 +5,9 @@
   flex-direction: column;
 }
 
-/* ================= HEADER SWITCH ================= */
+/* ================= HEADER ================= */
 
-.switchHeader {
+.header {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -20,25 +20,8 @@
   border-bottom-right-radius: 30px;
 }
 
-.switchItem {
-  cursor: pointer;
-  transition: 0.3s ease;
-  opacity: 0.5;
-}
-
-.switchItem:hover {
-  opacity: 0.8;
-}
-
-.active {
-  opacity: 1;
-}
-
-.divider {
-  width: 2px;
-  height: 40px;
-  background-color: white;
-  margin: 0 20px;
+.header h2 {
+  margin: 0;
 }
 
 /* ================= CHAT LIST ================= */
@@ -53,7 +36,7 @@
   background-color: white;
   padding: 15px;
   border-radius: 20px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   transition: 0.3s ease;
 }
@@ -72,6 +55,7 @@
   height: 60px;
   border-radius: 50%;
   background-color: #ccc;
+  object-fit: cover;
 }
 
 .onlineDot {
@@ -107,5 +91,27 @@
 
 .lastMessage {
   margin: 5px 0 0;
+
+
+  .emptyState {
+    padding: 40px 20px;
+    text-align: center;
+    color: gray;
+  }
+
   color: gray;
+}
+.deleteButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 4px;
+  border-radius: 50%;
+  transition: transform 0.2s ease;
+  line-height: 1;
+}
+
+.deleteButton:hover {
+  transform: scale(1.2);
 }
