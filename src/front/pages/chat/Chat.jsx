@@ -1,51 +1,62 @@
-import { useNavigate, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import style from "./Chat.module.css";
+import useGlobalReducer from "../../hooks/useGlobalReducer";
 
 export const Chat = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
+  const { store, dispatch } = useGlobalReducer();
 
-  const isChat = location.pathname.includes("/chat");
-  const isMatch = location.pathname.includes("/match");
+  const handleRemoveChat = (e, chatId) => {
+    e.preventDefault(); // Evita que el Link navegue al hacer clic en el botón
+    const confirm = window.confirm("¿Eliminar este chat?");
+    if (confirm) {
+      dispatch({ type: "remove_chat", payload: chatId });
+    }
+  };
 
   return (
     <div className={style.chatContainer}>
 
-      {/* HEADER CON SWITCH */}
-      <div className={style.switchHeader}>
-        <div
-          className={`${style.switchItem} ${isChat ? style.active : ""}`}
-          onClick={() => navigate("/chat")}
-        >
-          Chat
-        </div>
-
-        <div className={style.divider}></div>
-
-        <div
-          className={`${style.switchItem} ${isMatch ? style.active : ""}`}
-          onClick={() => navigate("/match")}
-        >
-          Match
-        </div>
+      {/* HEADER */}
+      <div className={style.header}>
+        <h2>Chat</h2>
       </div>
 
       {/* LISTA VISUAL DE CHAT */}
       <div className={style.chatList}>
-        <div className={style.chatItem}>
-          <div className={style.avatarWrapper}>
-            <div className={style.avatar}></div>
-            <span className={style.onlineDot}></span>
-          </div>
+        {store.chats && store.chats.length > 0 ? (
+          store.chats.map((chat) => (
+            <Link key={chat.id} to={`/chat/${chat.id}`}>
+              <div className={style.chatItem}>
+                <div className={style.avatarWrapper}>
+                  <img
+                    src={chat.image}
+                    alt={chat.name}
+                    className={style.avatar}
+                  />
+                  <span className={style.onlineDot}></span>
+                </div>
 
-          <div className={style.chatInfo}>
-            <div className={style.topRow}>
-              <h4>Carla Rodriguez</h4>
-              <span className={style.time}>7:43pm</span>
-            </div>
-            <p className={style.lastMessage}>¿Cómo te va?</p>
+                <div className={style.chatInfo}>
+                  <div className={style.topRow}>
+                    <h4>{chat.name}</h4>
+                    <button
+                      className={style.deleteButton}
+                      onClick={(e) => handleRemoveChat(e, chat.id)}
+                      title="Eliminar chat"
+                    >
+                      🗑️
+                    </button>
+                  </div>
+                  <p className={style.lastMessage}>{chat.lastMessage}</p>
+                </div>
+              </div>
+            </Link>
+          ))
+        ) : (
+          <div className={style.emptyState}>
+            <p>No tienes chats aún. ¡Empieza a conectar con nuevas personas!</p>
           </div>
-        </div>
+        )}
       </div>
 
     </div>

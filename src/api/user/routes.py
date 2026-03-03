@@ -111,7 +111,6 @@ def login():
             'user_metadata': response.user.user_metadata,
             **profile_data  # Include all profile fields
         }
-
         return jsonify({
             'message': 'Login successful',
             'user': user_data,

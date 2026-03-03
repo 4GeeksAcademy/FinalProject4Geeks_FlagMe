@@ -1,9 +1,12 @@
 .container {
-  min-height: 100vh;
+  height: 100vh;
+  overflow-y: auto;
   background: #f4f4f4;
   font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+  margin-top: -70px;
 }
-
 /* HEADER */
 
 .header {
@@ -97,8 +100,14 @@
   transition: 0.2s;
 }
 
-.box:hover {
+.box:hover:not(:disabled) {
   background: #f9f9f9;
+  transform: translateY(-2px);
+}
+
+.box:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .boxDelete {
@@ -112,6 +121,17 @@
   font-size: 15px;
   cursor: pointer;
   color: red;
+  transition: 0.2s;
+}
+
+.boxDelete:hover:not(:disabled) {
+  background: #ffcaca;
+  transform: translateY(-2px);
+}
+
+.boxDelete:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .boxLogout {
@@ -125,8 +145,276 @@
   font-size: 15px;
   cursor: pointer;
   color: var(--primary-color);
+  transition: 0.2s;
+}
+
+.boxLogout:hover:not(:disabled) {
+  background: #ffe8d0;
+  transform: translateY(-2px);
+}
+
+.boxLogout:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+
 }
 
 .icon {
   font-size: 16px;
+}
+
+/* Edit form */
+.editForm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  resize: vertical;
+  min-height: 80px;
+}
+
+.editButtons {
+  display: flex;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+/* Edit Form Overlay */
+.editFormOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.editFormContainer {
+  background: white;
+  border-radius: 20px;
+  padding: 30px;
+  max-width: 500px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.editFormHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 15px;
+}
+
+.editFormHeader h2 {
+  margin: 0;
+  font-size: 24px;
+  color: var(--primary-color);
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #999;
+  transition: 0.2s;
+  padding: 5px 10px;
+}
+
+.closeButton:hover {
+  color: #333;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.formGroup label {
+  font-weight: 600;
+  font-size: 14px;
+  color: #333;
+}
+
+.formGroup input,
+.formGroup textarea {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: "Poppins", sans-serif;
+  transition: 0.2s;
+}
+
+.formGroup input:focus,
+.formGroup textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(238, 78, 38, 0.1);
+}
+
+.formGroup textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.photoPreview {
+  margin: 15px 0;
+  text-align: center;
+}
+
+.photoPreview img {
+  max-width: 150px;
+  max-height: 150px;
+  border-radius: 10px;
+  border: 2px solid var(--primary-color);
+}
+
+.message {
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  font-size: 14px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.message.success {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.message.error {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.formActions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.submitButton {
+  flex: 1;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.submitButton:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+.submitButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.cancelButton {
+  flex: 1;
+  background: #f0f0f0;
+  color: #333;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.cancelButton:hover:not(:disabled) {
+  background: #e0e0e0;
+  transform: translateY(-2px);
+}
+
+.cancelButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Delete confirmation modal */
+.confirmOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1100;
+}
+
+.confirmBox {
+  background: #fff;
+  padding: 22px;
+  border-radius: 12px;
+  max-width: 420px;
+  width: 100%;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  text-align: center;
+}
+
+.confirmBox h3 {
+  margin: 0 0 8px;
+  color: var(--primary-color);
+}
+
+.confirmBox p {
+  margin: 0 0 18px;
+  color: #333;
+}
+
+.confirmActions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.dangerButton {
+  background: #d9534f;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.dangerButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
