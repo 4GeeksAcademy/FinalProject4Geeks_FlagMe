@@ -8,6 +8,7 @@ from flask_cors import CORS
 
 # Import the supabase client
 from api.supabase import supabase
+from api.user.chats.service import create_chat_for_match
 
 likes = Blueprint('likes_api', __name__)
 
@@ -74,10 +75,17 @@ def create_like():
         try:
             insert_response = supabase.table(
                 'matches').insert(match_data).execute()
+            if not insert_response.data:
+                return jsonify({"error": "Match could not be created"}), 400
+
+            created_match = insert_response.data[0]
+            created_chat = create_chat_for_match(created_match)
+
             print("Insert response: ", insert_response)
             return jsonify({
                 "message": "Match created successfully",
-                "data": insert_response.data
+                "match": created_match,
+                "chat": created_chat
             }), 201
         except Exception as e:
             return jsonify({"error": str(e)}), 400

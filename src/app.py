@@ -13,6 +13,7 @@ from api.user.routes import user
 from api.user.likes.routes import likes
 from api.user.rejections.routes import rejections
 from api.user.matches.routes import matches
+from api.user.chats.routes import chats
 from api.admin import setup_admin
 from api.commands import setup_commands
 
@@ -59,6 +60,9 @@ app.register_blueprint(rejections, url_prefix='/api/user/rejections')
 
 # Add all endpoints form the API with a "matches" prefix
 app.register_blueprint(matches, url_prefix='/api/user/matches')
+
+# Add all endpoints form the API with a "chats" prefix
+app.register_blueprint(chats, url_prefix='/api/user/chats')
 
 # Handle/serialize errors like a JSON object
 

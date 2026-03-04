@@ -49,7 +49,7 @@ def get_matches(user_id):
 
 @matches.route('/<match_id>', methods=['DELETE'])
 def delete_match(match_id):
-    
+
     # Get the rejecting user_id from request body or JWT token
     data = request.get_json()
     current_user_id = data.get('user_id')
