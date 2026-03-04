@@ -17,9 +17,11 @@ CORS(rejections)
 # Supabase endpoints
 
 # Get all rejections for a user
+
+
 @rejections.route('/<user_id>', methods=['GET'])
 def get_rejections(user_id):
-    
+
     # Get user_id from query params or JWT token
     user_id = request.args.get('user_id')
 
@@ -47,6 +49,8 @@ def get_rejections(user_id):
     return jsonify(rejections_sent), 200
 
 # Create a new rejection
+
+
 @rejections.route('/', methods=['POST'])
 def create_rejection():
     data = request.get_json()  # Get the JSON data of the frontend request
@@ -63,4 +67,3 @@ def create_rejection():
         return jsonify(insert_response.data), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 400
-    
