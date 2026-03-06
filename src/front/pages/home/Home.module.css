@@ -279,3 +279,24 @@
     padding: 15px 0;
   }
 }
+
+.imageLocation {
+    font-size: 0.85rem;
+    color: #f0f0f0;
+    margin-top: 4px;
+    display: flex;       
+    align-items: center;  
+    gap: 5px;            
+}
+
+.imageTags {
+    font-size: 0.8rem;
+    color: #e0e0e0;
+    margin-top: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
