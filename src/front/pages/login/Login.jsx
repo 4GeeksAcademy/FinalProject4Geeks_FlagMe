@@ -1,6 +1,7 @@
 import style from "./Login.module.css";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2';
 
 
 export function Login() {
@@ -8,6 +9,7 @@ export function Login() {
     const [password, setPassword] = useState("");
     const [activeTab, setActiveTab] = useState("login");
     const navigate = useNavigate();
+
 
     async function handleLogin(e) {
         e.preventDefault();
@@ -30,7 +32,12 @@ export function Login() {
 
             if (!response.ok) {
                 console.log(data.error);
-                alert("Credenciales incorrectas");
+                Swal.fire({
+                    icon: "error",
+                    title: "Credenciales incorrectas",
+                    confirmButtonText: "Intentar de nuevo",
+                    confirmButtonColor: "var(--primary-color)",
+                });
                 return;
             }
 
@@ -51,6 +58,12 @@ export function Login() {
 
         } catch (error) {
             console.log(error);
+            Swal.fire({
+                    icon: "error",
+                    title: "Credenciales incorrectas",
+                    confirmButtonText: "Intentar de nuevo",
+                    confirmButtonColor: "var(--primary-color)",
+                });
         }
     }
 

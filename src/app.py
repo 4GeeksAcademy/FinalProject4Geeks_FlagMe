@@ -13,6 +13,7 @@ from api.user.routes import user
 from api.user.likes.routes import likes
 from api.user.rejections.routes import rejections
 from api.user.matches.routes import matches
+from api.user.chats.routes import chats
 from api.admin import setup_admin
 from api.commands import setup_commands
 
@@ -60,6 +61,9 @@ app.register_blueprint(rejections, url_prefix='/api/user/rejections')
 # Add all endpoints form the API with a "matches" prefix
 app.register_blueprint(matches, url_prefix='/api/user/matches')
 
+# Add all endpoints form the API with a "chats" prefix
+app.register_blueprint(chats, url_prefix='/api/user/chats')
+
 # Handle/serialize errors like a JSON object
 
 
@@ -90,5 +94,5 @@ def serve_any_other_file(path):
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
-    PORT = int(os.environ.get('PORT', 3790))
+    PORT = int(os.environ.get('PORT', 3001))
     app.run(host='0.0.0.0', port=PORT, debug=True)

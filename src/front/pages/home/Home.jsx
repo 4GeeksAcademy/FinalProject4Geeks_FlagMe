@@ -2,6 +2,7 @@ import style from "./Home.module.css";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useGlobalReducer from "../../hooks/useGlobalReducer";
+import { MapPin, Speech, Star } from "lucide-react";
 
 export const Home = () => {
     const navigate = useNavigate();
@@ -16,44 +17,44 @@ export const Home = () => {
     });
 
     const loadMatches = async (userId) => {
-    try {
-        const backendUrl = import.meta.env.VITE_BACKEND_URL;
+        try {
+            const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-        const url = `${backendUrl}/api/user/matches/${userId}`;
-        const response = await fetch(url);
+            const url = `${backendUrl}/api/user/matches/${userId}`;
+            const response = await fetch(url);
 
-        console.log("Status:", response.status);
+            console.log("Status:", response.status);
 
-        if (!response.ok) {
-            throw new Error(`Error ${response.status}: ${response.statusText}`);
-        }
-
-        const data = await response.json();
-
-        data.forEach(match => {
-            const matchedUser = match.matched_user;
-            const chatExists = store.chats.some(chat => String(chat.id) === String(matchedUser.id));
-
-            if (!chatExists) {
-                dispatch({
-                    type: 'add_chat',
-                    payload: {
-                        id: matchedUser.id,
-                        name: matchedUser.name,
-                        image: matchedUser.profile_pic,
-                        lastMessage: '¡Es un match! Di hola 👋',
-                        time: new Date(match.created_at).toLocaleTimeString('es-ES', {
-                            hour: '2-digit',
-                            minute: '2-digit'
-                        })
-                    }
-                });
+            if (!response.ok) {
+                throw new Error(`Error ${response.status}: ${response.statusText}`);
             }
-        });
-    } catch (error) {
-        console.error('Error al cargar matches:', error);
-    }
-};
+
+            const data = await response.json();
+
+            data.forEach(match => {
+                const matchedUser = match.matched_user;
+                const chatExists = store.chats.some(chat => String(chat.id) === String(matchedUser.id));
+
+                if (!chatExists) {
+                    dispatch({
+                        type: 'add_chat',
+                        payload: {
+                            id: matchedUser.id,
+                            name: matchedUser.name,
+                            image: matchedUser.profile_pic,
+                            lastMessage: '¡Es un match! Di hola 👋',
+                            time: new Date(match.created_at).toLocaleTimeString('es-ES', {
+                                hour: '2-digit',
+                                minute: '2-digit'
+                            })
+                        }
+                    });
+                }
+            });
+        } catch (error) {
+            console.error('Error al cargar matches:', error);
+        }
+    };
 
     useEffect(() => {
         const userData = localStorage.getItem("user");
@@ -103,7 +104,24 @@ export const Home = () => {
                 id: user.id,
                 name: user.name || 'Usuario',
                 age: user.age || '?',
-                image: user.profile_pic || 'https://via.placeholder.com/400x400'
+                image: user.profile_pic || 'https://via.placeholder.com/400x400',
+                location: user.location || null,
+                languages: (() => {
+                    try {
+                        const parsed = JSON.parse(user.languages || '[]');
+                        return Array.isArray(parsed) ? parsed : [parsed];
+                    } catch {
+                        return user.languages ? [user.languages] : [];
+                    }
+                })(),
+                interests: (() => {
+                    try {
+                        const parsed = JSON.parse(user.interests || '[]');
+                        return Array.isArray(parsed) ? parsed : [parsed];
+                    } catch {
+                        return user.interests ? [user.interests] : [];
+                    }
+                })(),
             }));
 
             setImages(formattedUsers);
@@ -209,6 +227,24 @@ export const Home = () => {
                         <div className={style.imageCardContent}>
                             <div className={style.imageName}>{currentImage.name}</div>
                             <div className={style.imageAge}>{currentImage.age} años</div>
+
+                            {currentImage.location && (
+                                <div className={style.imageLocation}>
+                                    <MapPin size={14} /> {currentImage.location}
+                                </div>
+                            )}
+
+                            {currentImage.languages?.length > 0 && (
+                                <div className={style.imageTags}>
+                                    <Speech size={14} /> {currentImage.languages.join(' · ')}
+                                </div>
+                            )}
+
+                            {currentImage.interests?.length > 0 && (
+                                <div className={style.imageTags}>
+                                    <Star size={14} /> {currentImage.interests.join(' · ')}
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
