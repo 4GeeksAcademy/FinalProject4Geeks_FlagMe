@@ -11,7 +11,7 @@ def create_chat_for_match(match_row):
     if not match_id or not user_1_id or not user_2_id:
         raise ValueError('Invalid match data to create chat')
 
-    existing_chat_response = supabase.table('chat').select(
+    existing_chat_response = supabase.table('chats').select(
         'id, match_id, user_1_id, user_2_id, created_at, '
         'last_message_id, last_message_text, last_message_sender_id, last_message_at'
     ).eq('match_id', match_id).limit(1).execute()
@@ -19,13 +19,18 @@ def create_chat_for_match(match_row):
     if existing_chat_response.data:
         return existing_chat_response.data[0]
 
+    # Keep last message references empty until the first message exists.
     chat_data = {
         'match_id': match_id,
         'user_1_id': user_1_id,
-        'user_2_id': user_2_id
+        'user_2_id': user_2_id,
+        'last_message_id': None,
+        'last_message_text': None,
+        'last_message_sender_id': None,
+        'last_message_at': None
     }
 
-    chat_response = supabase.table('chat').insert(chat_data).execute()
+    chat_response = supabase.table('chats').insert(chat_data).execute()
     if not chat_response.data:
         raise ValueError('Chat could not be created')
 
@@ -35,7 +40,7 @@ def create_chat_for_match(match_row):
 
 
 def get_chat_messages(chat_id, limit=50, before=None):
-    chat_response = supabase.table('chat').select(
+    chat_response = supabase.table('chats').select(
         'id, user_1_id, user_2_id'
     ).eq('id', chat_id).limit(1).execute()
 
@@ -58,8 +63,9 @@ def get_chat_messages(chat_id, limit=50, before=None):
 
 # Service function to create a new message in a chat with sender validation and content length check
 
+
 def create_chat_message(chat_id, sender_id, content):
-    chat_response = supabase.table('chat').select(
+    chat_response = supabase.table('chats').select(
         'id, user_1_id, user_2_id'
     ).eq('id', chat_id).limit(1).execute()
 
@@ -83,7 +89,7 @@ def create_chat_message(chat_id, sender_id, content):
 
     created_message = message_response.data[0]
 
-    supabase.table('chat').update({
+    supabase.table('chats').update({
         'last_message_id': created_message.get('id'),
         'last_message_text': created_message.get('content'),
         'last_message_sender_id': created_message.get('sender_id'),
