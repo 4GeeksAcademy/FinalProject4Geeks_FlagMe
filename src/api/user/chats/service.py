@@ -1,8 +1,5 @@
 from api.supabase import supabase
 
-# Service function to create a chat when a new match is created
-
-
 def create_chat_for_match(match_row):
     match_id = match_row.get('id')
     user_1_id = match_row.get('user_1_id')
@@ -36,8 +33,6 @@ def create_chat_for_match(match_row):
 
     return chat_response.data[0]
 
-# Service function to get messages for a chat with pagination support
-
 
 def get_chat_messages(chat_id, limit=50, before=None):
     chat_response = supabase.table('chats').select(
@@ -61,7 +56,6 @@ def get_chat_messages(chat_id, limit=50, before=None):
 
     return messages
 
-# Service function to create a new message in a chat with sender validation and content length check
 
 
 def create_chat_message(chat_id, sender_id, content):
@@ -82,8 +76,7 @@ def create_chat_message(chat_id, sender_id, content):
         'content': content
     }
 
-    message_response = supabase.table(
-        'messages').insert(message_payload).execute()
+    message_response = supabase.table('messages').insert(message_payload).execute()
     if not message_response.data:
         raise ValueError('Message could not be created')
 

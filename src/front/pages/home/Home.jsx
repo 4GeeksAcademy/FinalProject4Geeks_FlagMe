@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useGlobalReducer from "../../hooks/useGlobalReducer";
 import { MapPin, Speech, Star } from "lucide-react";
+import { MatchModal } from "../matchModal/MatchModal"
 
 export const Home = () => {
     const navigate = useNavigate();
@@ -10,6 +11,7 @@ export const Home = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [images, setImages] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [matchedUser, setMatchedUser] = useState(null); //
 
     const [currentUser, setCurrentUser] = useState(() => {
         const userStr = localStorage.getItem("user");
@@ -19,17 +21,13 @@ export const Home = () => {
     const loadMatches = async (userId) => {
         try {
             const backendUrl = import.meta.env.VITE_BACKEND_URL;
-
             const url = `${backendUrl}/api/user/matches/${userId}`;
             const response = await fetch(url);
 
-            console.log("Status:", response.status);
-
-            if (!response.ok) {
-                throw new Error(`Error ${response.status}: ${response.statusText}`);
-            }
+            if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
 
             const data = await response.json();
+            console.log("Matches data:", data);
 
             data.forEach(match => {
                 const matchedUser = match.matched_user;
@@ -133,6 +131,7 @@ export const Home = () => {
         }
     };
 
+    // ✅ handleAccept: da like y crea chat si hay match
     const handleAccept = async () => {
         const acceptedUser = images[currentIndex];
 
@@ -149,6 +148,7 @@ export const Home = () => {
             });
 
             const data = await response.json();
+            console.log("Respuesta likes:", data);
             dispatch({ type: 'add_like', payload: acceptedUser });
 
             if (data.message === "Match created successfully") {
@@ -164,7 +164,7 @@ export const Home = () => {
                 };
 
                 dispatch({ type: 'add_chat', payload: newChat });
-                alert(`¡Match con ${acceptedUser.name}! 🎉`);
+                setMatchedUser(acceptedUser); // ✅ modal en lugar de alert
             }
 
         } catch (error) {
@@ -216,6 +216,13 @@ export const Home = () => {
 
     return (
         <div className={style.searchContainer}>
+
+            {/* ✅ Modal de match */}
+            <MatchModal
+                user={matchedUser}
+                onClose={() => setMatchedUser(null)}
+            />
+
             <h1>Buscador</h1>
 
             <div className={style.scrollContainer}>

@@ -33,7 +33,7 @@ export const router = createBrowserRouter(
       <Route path="/chat" element={<Chat />} />
       <Route path="/single/:theId" element={<Single />} />  {/* Dynamic route for single items */}
       <Route path="/demo" element={<Demo />} />
-      <Route path="/chat/:id" element={<UserChat />} />
+      <Route path="/chat/:chatId" element={<UserChat />} />
       <Route path="/register" element={<Register></Register>}></Route>
       <Route path="/login" element={<Login></Login>}></Route>
       <Route path="/flag" element={<Flag></Flag>}></Route>

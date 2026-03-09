@@ -1,36 +1,60 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import style from "./Chat.module.css";
-import useGlobalReducer from "../../hooks/useGlobalReducer";
 
 export const Chat = () => {
-  const { store, dispatch } = useGlobalReducer();
+  const [chats, setChats] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const handleRemoveChat = (e, chatId) => {
-    e.preventDefault(); // Evita que el Link navegue al hacer clic en el botón
-    const confirm = window.confirm("¿Eliminar este chat?");
-    if (confirm) {
-      dispatch({ type: "remove_chat", payload: chatId });
-    }
-  };
+  const currentUser = JSON.parse(localStorage.getItem("user"));
+
+  useEffect(() => {
+    const fetchChats = async () => {
+      try {
+        const backendUrl = import.meta.env.VITE_BACKEND_URL;
+        const response = await fetch(`${backendUrl}/api/user/chats/${currentUser.id}`);
+
+        const data = await response.json();
+        console.log("Respuesta mensajes:", data);
+
+        if (!response.ok) throw new Error("Error al cargar chats");
+
+        setChats(data);
+      } catch (error) {
+        console.error("Error al cargar chats:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (currentUser?.id) fetchChats();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className={style.chatContainer}>
+        <div className={style.header}><h2>Chat</h2></div>
+        <div className={style.emptyState}><p>Cargando chats...</p></div>
+      </div>
+    );
+  }
 
   return (
     <div className={style.chatContainer}>
 
-      {/* HEADER */}
       <div className={style.header}>
         <h2>Chat</h2>
       </div>
 
-      {/* LISTA VISUAL DE CHAT */}
       <div className={style.chatList}>
-        {store.chats && store.chats.length > 0 ? (
-          store.chats.map((chat) => (
-            <Link key={chat.id} to={`/chat/${chat.id}`}>
+        {chats.length > 0 ? (
+          chats.map((chat) => (
+            <Link key={chat.chat_id} to={`/chat/${chat.chat_id}`}>
               <div className={style.chatItem}>
                 <div className={style.avatarWrapper}>
                   <img
-                    src={chat.image}
-                    alt={chat.name}
+                    src={chat.matched_user.profile_pic || "https://via.placeholder.com/60"}
+                    alt={chat.matched_user.name}
                     className={style.avatar}
                   />
                   <span className={style.onlineDot}></span>
@@ -38,16 +62,19 @@ export const Chat = () => {
 
                 <div className={style.chatInfo}>
                   <div className={style.topRow}>
-                    <h4>{chat.name}</h4>
-                    <button
-                      className={style.deleteButton}
-                      onClick={(e) => handleRemoveChat(e, chat.id)}
-                      title="Eliminar chat"
-                    >
-                      🗑️
-                    </button>
+                    <h4>{chat.matched_user.name}</h4>
+                    <span className={style.time}>
+                      {chat.last_message?.created_at
+                        ? new Date(chat.last_message.created_at).toLocaleTimeString('es-ES', {
+                          hour: '2-digit',
+                          minute: '2-digit'
+                        })
+                        : ""}
+                    </span>
                   </div>
-                  <p className={style.lastMessage}>{chat.lastMessage}</p>
+                  <p className={style.lastMessage}>
+                    {chat.last_message?.text || "¡Es un match! Di hola 👋"}
+                  </p>
                 </div>
               </div>
             </Link>
