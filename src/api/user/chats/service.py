@@ -8,16 +8,23 @@ def create_chat_for_match(match_row):
     if not match_id or not user_1_id or not user_2_id:
         raise ValueError('Invalid match data to create chat')
 
-    # ✅ Select simplificado
-    existing_chat_response = supabase.table('chats').select('id').eq('match_id', match_id).limit(1).execute()
+    existing_chat_response = supabase.table('chats').select(
+        'id, match_id, user_1_id, user_2_id, created_at, '
+        'last_message_id, last_message_text, last_message_sender_id, last_message_at'
+    ).eq('match_id', match_id).limit(1).execute()
 
     if existing_chat_response.data:
         return existing_chat_response.data[0]
 
+    # Keep last message references empty until the first message exists.
     chat_data = {
         'match_id': match_id,
         'user_1_id': user_1_id,
-        'user_2_id': user_2_id
+        'user_2_id': user_2_id,
+        'last_message_id': None,
+        'last_message_text': None,
+        'last_message_sender_id': None,
+        'last_message_at': None
     }
 
     chat_response = supabase.table('chats').insert(chat_data).execute()
@@ -28,7 +35,7 @@ def create_chat_for_match(match_row):
 
 
 def get_chat_messages(chat_id, limit=50, before=None):
-    chat_response = supabase.table('chats').select( 
+    chat_response = supabase.table('chats').select(
         'id, user_1_id, user_2_id'
     ).eq('id', chat_id).limit(1).execute()
 
@@ -48,6 +55,7 @@ def get_chat_messages(chat_id, limit=50, before=None):
     messages.reverse()
 
     return messages
+
 
 
 def create_chat_message(chat_id, sender_id, content):
