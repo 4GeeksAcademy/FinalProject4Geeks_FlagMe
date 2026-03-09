@@ -22,7 +22,7 @@ CORS(chats)
 def get_chats(user_id):
     try:
         # Get all chats where the user is either user_1_id or user_2_id
-        chats_response = supabase.table('chat').select(
+        chats_response = supabase.table('chats').select(
             'id, match_id, user_1_id, user_2_id, created_at, '
             'last_message_id, last_message_text, last_message_sender_id, last_message_at'
         ).or_(f"user_1_id.eq.{user_id},user_2_id.eq.{user_id}").execute()
