@@ -9,7 +9,7 @@ export const ResetPassword = () => {
         e.preventDefault();
         const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-        const response = await fetch(`${backendUrl}/api/user/reset`, {
+        const response = await fetch(`${backendUrl}api/user/reset`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
