@@ -5,17 +5,30 @@ export const ResetPassword = () => {
     const [password, setPassword] = useState("");
     const [confirmpassword, setConfirmPassword] = useState("");
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
-        // Lógica para resetear
-        console.log("Password changed");
+        const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
+        const response = await fetch(`${backendUrl}/api/user/reset`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                token: token,
+                password: password,
+            }),
+        });
+        const data = await response.json();
+
+        console.log(data);
     };
 
     return (
         <div className={styles.resetContainer}>
             <div className={styles.resetBox}>
                 <h1 className={styles.resetBox}>Reset Password</h1>
-                
+
                 <form onSubmit={handleSubmit}>
                     <label className={styles.resetBox}>
                         Nueva contraseña:
@@ -38,7 +51,7 @@ export const ResetPassword = () => {
                             required
                         />
                     </label>
-                
+
                     <button type="submit" className={styles.resetButton}>
                         Reset
                     </button>
