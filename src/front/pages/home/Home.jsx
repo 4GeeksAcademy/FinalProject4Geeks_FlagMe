@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useGlobalReducer from "../../hooks/useGlobalReducer";
 import { MapPin, Speech, Star } from "lucide-react";
-import { MatchModal } from "../matchModal/MatchModal"
+import { MatchModal } from "../matchModal/MatchModal";
 
 export const Home = () => {
     const navigate = useNavigate();
@@ -11,7 +11,7 @@ export const Home = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [images, setImages] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [matchedUser, setMatchedUser] = useState(null); //
+    const [matchedUser, setMatchedUser] = useState(null);
 
     const [currentUser, setCurrentUser] = useState(() => {
         const userStr = localStorage.getItem("user");
@@ -131,7 +131,6 @@ export const Home = () => {
         }
     };
 
-    // ✅ handleAccept: da like y crea chat si hay match
     const handleAccept = async () => {
         const acceptedUser = images[currentIndex];
 
@@ -164,7 +163,7 @@ export const Home = () => {
                 };
 
                 dispatch({ type: 'add_chat', payload: newChat });
-                setMatchedUser(acceptedUser); // ✅ modal en lugar de alert
+                setMatchedUser(acceptedUser); // ✅ mostrar modal
             }
 
         } catch (error) {
@@ -203,6 +202,11 @@ export const Home = () => {
     if (images.length === 0) {
         return (
             <div className={style.searchContainer}>
+                {/* ✅ Modal también en estado vacío */}
+                <MatchModal
+                    user={matchedUser}
+                    onClose={() => setMatchedUser(null)}
+                />
                 <h1>Buscador</h1>
                 <div className={style.emptyState}>
                     <h2>¡No hay más perfiles!</h2>

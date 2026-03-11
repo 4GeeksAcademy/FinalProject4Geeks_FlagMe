@@ -1,7 +1,15 @@
 import styles from "./MatchModal.module.css";
+import { useNavigate } from "react-router-dom";
 
 export const MatchModal = ({ user, onClose }) => {
     if (!user) return null;
+
+    const navigate = useNavigate();
+
+    const handleSendMessage = () => {
+        onClose();
+        navigate("/chat");
+    };
 
     return (
         <div className={styles.overlay}>
@@ -15,7 +23,7 @@ export const MatchModal = ({ user, onClose }) => {
                     className={styles.avatar}
                 />
                 <div className={styles.buttons}>
-                    <button className={styles.messageButton} onClick={onClose}>
+                    <button className={styles.messageButton} onClick={handleSendMessage}>
                         Enviar mensaje
                     </button>
                     <button className={styles.closeButton} onClick={onClose}>

@@ -14,8 +14,14 @@ export const Navbar = () => {
       setProfilePic(parsedUser.profile_pic || parsedUser.avatar_url || null);
     }
   }, []);
+  useEffect(() => {
+    document.body.style.overflow = 'auto';
+    return () => {
+      document.body.style.overflow = ''; // ✅ limpia al salir
+    };
+  }, []);
 
-  const hiddenRoutes = ["/userprofile"];
+  const hiddenRoutes = ["/userprofile", "/chat", "/login", "/register"];
   const shouldHide = hiddenRoutes.some(route => location.pathname.startsWith(route));
   if (shouldHide) return null;
 
@@ -28,6 +34,7 @@ export const Navbar = () => {
       navigate("/login");
     }
   };
+
 
   return (
     <nav className={style.navbar}>
