@@ -8,8 +8,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  width: 100%;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .scrollContainer {
@@ -27,11 +27,6 @@
   width: 100%;
   height: 100%;
   display: flex;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
 }
 
 .imageWrapper::-webkit-scrollbar {
@@ -41,7 +36,6 @@
 .imageCard {
   flex: 0 0 100%;
   height: 100%;
-  scroll-snap-align: start;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -150,39 +144,62 @@
   opacity: 0.8;
 }
 
+.imageLocation {
+  font-size: 0.85rem;
+  color: #f0f0f0;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.imageTags {
+  font-size: 0.8rem;
+  color: #e0e0e0;
+  margin-top: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .searchContainer {
     padding: 15px;
-    justify-content: flex-start; /* En móvil, contenido desde arriba */
-    padding-top: 80px; /* Espacio para navbar */
-    padding-bottom: 80px; /* Espacio para footer */
+    padding-top: 80px;
+    padding-bottom: 80px;
+    justify-content: center;
+    height: 100vh;
+    overflow: hidden;
   }
-  
+
   .scrollContainer {
-    height: 450px;
-    max-height: calc(100vh - 200px); /* Ajuste para móvil */
+    height: calc(100vh - 220px);
+    max-height: none;
   }
-  
+
   .actionsContainer {
     padding: 15px 0;
     gap: 25px;
   }
-  
+
   .actionButton {
     width: 55px;
     height: 55px;
     font-size: 24px;
   }
-  
+
   .imageName {
     font-size: 22px;
   }
-  
+
   .imageAge {
     font-size: 16px;
   }
-  
+
   .imageCardContent {
     padding: 15px;
   }
@@ -190,45 +207,46 @@
 
 @media (max-width: 480px) {
   body {
-    padding-bottom: 70px;
-    padding-top: 60px; /* Ajustar según altura real del navbar */
+    overflow: hidden;
   }
-  
+
   .searchContainer {
     padding: 10px;
     padding-top: 70px;
     padding-bottom: 70px;
+    height: 100vh;
+    overflow: hidden;
   }
-  
+
   .scrollContainer {
-    height: 400px;
-    max-height: calc(100vh - 180px);
+    height: calc(100vh - 200px);
+    max-height: none;
   }
-  
+
   .actionButton {
     width: 50px;
     height: 50px;
     font-size: 22px;
   }
-  
+
   .actionsContainer {
     gap: 20px;
     padding: 10px 0;
   }
-  
+
   .imageName {
     font-size: 20px;
   }
-  
+
   .imageAge {
     font-size: 15px;
     margin-bottom: 15px;
   }
-  
+
   .emptyState {
     padding: 20px;
   }
-  
+
   .emptyState h2 {
     font-size: 1.3rem;
   }
@@ -238,10 +256,10 @@
   .searchContainer {
     max-width: 450px;
   }
-  
+
   .scrollContainer {
     height: 550px;
-    max-height: 70vh; /* Porcentaje de la altura de la ventana */
+    max-height: 70vh;
   }
 }
 
@@ -249,14 +267,13 @@
   .searchContainer {
     max-width: 450px;
   }
-  
+
   .scrollContainer {
     height: 600px;
     max-height: 70vh;
   }
 }
 
-/* Para pantallas muy altas */
 @media (min-height: 900px) {
   .scrollContainer {
     height: 650px;
@@ -264,39 +281,17 @@
   }
 }
 
-/* Ajuste para tablets en horizontal */
 @media (max-width: 1024px) and (orientation: landscape) {
   .searchContainer {
     max-width: 500px;
   }
-  
+
   .scrollContainer {
     height: 400px;
     max-height: 75vh;
   }
-  
+
   .actionsContainer {
     padding: 15px 0;
   }
-}
-
-.imageLocation {
-    font-size: 0.85rem;
-    color: #f0f0f0;
-    margin-top: 4px;
-    display: flex;       
-    align-items: center;  
-    gap: 5px;            
-}
-
-.imageTags {
-    font-size: 0.8rem;
-    color: #e0e0e0;
-    margin-top: 4px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: flex;
-    align-items: center;
-    gap: 5px;
 }
