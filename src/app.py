@@ -3,11 +3,17 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 import os
 from flask import Flask, request, jsonify, url_for, send_from_directory
+from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_swagger import swagger
 from api.utils import APIException, generate_sitemap
 from api.models import db
 from api.routes import api
+from api.user.routes import user
+from api.user.likes.routes import likes
+from api.user.rejections.routes import rejections
+from api.user.matches.routes import matches
+from api.user.chats.routes import chats
 from api.admin import setup_admin
 from api.commands import setup_commands
 
@@ -18,6 +24,9 @@ static_file_dir = os.path.join(os.path.dirname(
     os.path.realpath(__file__)), '../dist/')
 app = Flask(__name__)
 app.url_map.strict_slashes = False
+
+# enable CORS
+CORS(app, origins="*", allow_headers=["Content-Type", "Authorization"])
 
 # database condiguration
 db_url = os.getenv("DATABASE_URL")
@@ -40,6 +49,21 @@ setup_commands(app)
 # Add all endpoints form the API with a "api" prefix
 app.register_blueprint(api, url_prefix='/api')
 
+# Add all endpoints form the API with a "user" prefix
+app.register_blueprint(user, url_prefix='/api/user')
+
+# Add all endpoints form the API with a "likes" prefix
+app.register_blueprint(likes, url_prefix='/api/user/likes')
+
+# Add all endpoints form the API with a "rejections" prefix
+app.register_blueprint(rejections, url_prefix='/api/user/rejections')
+
+# Add all endpoints form the API with a "matches" prefix
+app.register_blueprint(matches, url_prefix='/api/user/matches')
+
+# Add all endpoints form the API with a "chats" prefix
+app.register_blueprint(chats, url_prefix='/api/user/chats')
+
 # Handle/serialize errors like a JSON object
 
 
@@ -57,6 +81,8 @@ def sitemap():
     return send_from_directory(static_file_dir, 'index.html')
 
 # any other endpoint will try to serve it like a static file
+
+
 @app.route('/<path:path>', methods=['GET'])
 def serve_any_other_file(path):
     if not os.path.isfile(os.path.join(static_file_dir, path)):

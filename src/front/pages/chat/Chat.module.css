@@ -1,0 +1,117 @@
+.chatContainer {
+  height: 100vh;
+  background-color: #f2f2f2;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ================= HEADER ================= */
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 110px;
+  background: var(--main-gradient);
+  color: white;
+  font-size: 32px;
+  font-weight: 600;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+}
+
+.header h2 {
+  margin: 0;
+}
+
+/* ================= CHAT LIST ================= */
+
+.chatList {
+  padding: 20px;
+}
+
+.chatItem {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  padding: 15px;
+  border-radius: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.chatItem:hover {
+  transform: scale(1.02);
+}
+
+.avatarWrapper {
+  position: relative;
+  margin-right: 15px;
+}
+
+.avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #ccc;
+  object-fit: cover;
+}
+
+.onlineDot {
+  position: absolute;
+  bottom: 3px;
+  right: 3px;
+  width: 14px;
+  height: 14px;
+  background-color: #2ecc71;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+.chatInfo {
+  flex: 1;
+}
+
+.topRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.topRow h4 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.time {
+  font-size: 14px;
+  color: gray;
+}
+
+.lastMessage {
+  margin: 5px 0 0;
+
+
+  .emptyState {
+    padding: 40px 20px;
+    text-align: center;
+    color: gray;
+  }
+
+  color: gray;
+}
+.deleteButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 4px;
+  border-radius: 50%;
+  transition: transform 0.2s ease;
+  line-height: 1;
+}
+
+.deleteButton:hover {
+  transform: scale(1.2);
+}
