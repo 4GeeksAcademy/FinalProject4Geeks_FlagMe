@@ -7,7 +7,7 @@ export const Footer = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const hiddenRoutes = ["/userprofile"];
+  const hiddenRoutes = ["/userprofile", "/login", "/register"];
 
   const shouldHide = hiddenRoutes.some(route =>
     location.pathname.startsWith(route)
