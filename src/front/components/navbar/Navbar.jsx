@@ -8,6 +8,9 @@ export const Navbar = () => {
   const [profilePic, setProfilePic] = useState(null);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
+  const hiddenRoutes = ["/userprofile", "/chat", "/login", "/register"];
+  const shouldHide = hiddenRoutes.some(route => location.pathname.startsWith(route));
+
   useEffect(() => {
     const userData = localStorage.getItem("user");
     if (userData) {
@@ -23,12 +26,9 @@ export const Navbar = () => {
     };
   }, []);
 
-  const hiddenRoutes = ["/userprofile", "/chat", "/login", "/register"];
-  const shouldHide = hiddenRoutes.some(route => location.pathname.startsWith(route));
-  if (shouldHide) return null;
+  if (shouldHide) return null; // ✅ después de todos los hooks
 
   const handleLeftIconClick = () => navigate("/userprofile");
-
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");

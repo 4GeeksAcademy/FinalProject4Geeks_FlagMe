@@ -16,7 +16,7 @@ export function UserProfile() {
   const [updateMessage, setUpdateMessage] = useState("");
   const [deleting, setDeleting] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [showLogoutModal, setShowLogoutModal] = useState(false); // ✅
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     age: "",
@@ -26,8 +26,6 @@ export function UserProfile() {
     interests: "",
     profile_pic: ""
   });
-  const [photoFile, setPhotoFile] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState("");
 
   useEffect(() => {
     document.body.style.overflow = 'auto';
@@ -59,9 +57,6 @@ export function UserProfile() {
         profile_pic: parsedUser.profile_pic || parsedUser.avatar_url || ""
       });
 
-      if (parsedUser.avatar_url) {
-        setPreviewUrl(parsedUser.avatar_url);
-      }
     } catch (error) {
       console.error("Error al parsear datos del usuario:", error);
       localStorage.removeItem("user");
@@ -84,18 +79,6 @@ export function UserProfile() {
       ...formData,
       [name]: value
     });
-  };
-
-  const handlePhotoChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setPhotoFile(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreviewUrl(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
   };
 
   const handleUpdateUser = async (e) => {
@@ -264,7 +247,7 @@ export function UserProfile() {
 
         <button
           className={style.boxLogout}
-          onClick={() => setShowLogoutModal(true)} // ✅
+          onClick={() => setShowLogoutModal(true)}
         >
           <FaSignOutAlt className={style.icon} />
           Cerrar sesión
@@ -428,9 +411,10 @@ export function UserProfile() {
                 />
               </div>
 
-              {previewUrl && (
+              {/* ✅ Preview usando formData.profile_pic directamente */}
+              {formData.profile_pic && (
                 <div className={style.photoPreview}>
-                  <img src={previewUrl} alt="Preview" />
+                  <img src={formData.profile_pic} alt="Preview" />
                 </div>
               )}
 
