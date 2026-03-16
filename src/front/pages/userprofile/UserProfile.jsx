@@ -16,6 +16,7 @@ export function UserProfile() {
   const [updateMessage, setUpdateMessage] = useState("");
   const [deleting, setDeleting] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false); // ✅
   const [formData, setFormData] = useState({
     name: "",
     age: "",
@@ -29,12 +30,17 @@ export function UserProfile() {
   const [previewUrl, setPreviewUrl] = useState("");
 
   useEffect(() => {
+    document.body.style.overflow = 'auto';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, []);
+
+  useEffect(() => {
     const userData = localStorage.getItem("user");
     const token = localStorage.getItem("token");
 
-    // Verificar si hay sesión activa
     if (!userData || !token) {
-      // Si no hay usuario en localStorage, redirigir al login
       navigate("/login", { replace: true });
       return;
     }
@@ -43,7 +49,6 @@ export function UserProfile() {
       const parsedUser = JSON.parse(userData);
       setUser(parsedUser);
 
-      // Cargar los datos del usuario en el formulario
       setFormData({
         name: parsedUser.name || parsedUser.user_metadata?.name || "",
         age: parsedUser.age || "",
@@ -59,7 +64,6 @@ export function UserProfile() {
       }
     } catch (error) {
       console.error("Error al parsear datos del usuario:", error);
-      // Si hay error, redirigir al login
       localStorage.removeItem("user");
       localStorage.removeItem("token");
       navigate("/login", { replace: true });
@@ -69,15 +73,9 @@ export function UserProfile() {
   }, [navigate]);
 
   const handleLogout = () => {
-    const confirmLogout = window.confirm(
-      "¿Estás seguro de que deseas cerrar sesión?"
-    );
-
-    if (confirmLogout) {
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
-      navigate("/login", { replace: true });
-    }
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    navigate("/login", { replace: true });
   };
 
   const handleInputChange = (e) => {
@@ -109,7 +107,6 @@ export function UserProfile() {
       const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:3001";
       const token = localStorage.getItem("token");
 
-      // Preparar datos para enviar
       const dataToSend = {
         name: formData.name,
         age: formData.age,
@@ -136,7 +133,6 @@ export function UserProfile() {
 
       const updatedUser = await response.json();
 
-      // Actualizar el usuario en localStorage
       const updatedUserData = {
         ...user,
         ...updatedUser[0]
@@ -159,7 +155,6 @@ export function UserProfile() {
   };
 
   const handleDeleteUser = async () => {
-    // El borrado ahora se realiza tras confirmar en el modal
     setDeleting(true);
 
     try {
@@ -179,7 +174,6 @@ export function UserProfile() {
         throw new Error(errorData.error || "Error al eliminar la cuenta");
       }
 
-      // Si se elimina exitosamente, limpiar datos y redirigir
       localStorage.removeItem("token");
       localStorage.removeItem("user");
       navigate("/login", { replace: true });
@@ -195,24 +189,21 @@ export function UserProfile() {
   const confirmDeleteUser = async () => {
     await handleDeleteUser();
   };
-  // Mostrar loading mientras se cargan los datos
+
   if (loading) {
     return <div className={style.loading}>Cargando perfil...</div>;
   }
-  // Si no hay usuario, no renderizar nada (la redirección ya ocurrió en useEffect)
+
   if (!user) {
     return null;
   }
+
   return (
     <div className={style.container}>
 
       {/* HEADER */}
       <div className={style.header}>
-
-        <div
-          className={style.backButton}
-          onClick={() => navigate("/")}
-        >
+        <div className={style.backButton} onClick={() => navigate("/")}>
           <FaArrowLeft color="white" />
         </div>
 
@@ -224,11 +215,9 @@ export function UserProfile() {
             className={style.avatar}
             alt="Foto de perfil"
           />
-
           <h2 className={style.name}>{user.name || user.user_metadata?.name || "Usuario"}</h2>
           <p className={style.username}>{user.email}</p>
         </div>
-
       </div>
 
       {/* INFO */}
@@ -239,8 +228,6 @@ export function UserProfile() {
 
       {/* MENU */}
       <div className={style.menu}>
-
-        {/* boton ayuda */}
 
         <div className={style.dropdown}>
           <div
@@ -257,8 +244,6 @@ export function UserProfile() {
             </div>
           )}
         </div>
-
-
 
         <button
           className={style.box}
@@ -279,7 +264,7 @@ export function UserProfile() {
 
         <button
           className={style.boxLogout}
-          onClick={handleLogout}
+          onClick={() => setShowLogoutModal(true)} // ✅
         >
           <FaSignOutAlt className={style.icon} />
           Cerrar sesión
@@ -307,6 +292,30 @@ export function UserProfile() {
                 disabled={deleting}
               >
                 {deleting ? "Eliminando..." : "Eliminar definitivamente"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* LOGOUT CONFIRMATION MODAL */}
+      {showLogoutModal && (
+        <div className={style.confirmOverlay}>
+          <div className={style.confirmBox}>
+            <h3>Cerrar sesión</h3>
+            <p>¿Estás seguro de que deseas cerrar sesión?</p>
+            <div className={style.confirmActions}>
+              <button
+                className={style.cancelButton}
+                onClick={() => setShowLogoutModal(false)}
+              >
+                Cancelar
+              </button>
+              <button
+                className={style.dangerButton}
+                onClick={handleLogout}
+              >
+                Cerrar sesión
               </button>
             </div>
           </div>
