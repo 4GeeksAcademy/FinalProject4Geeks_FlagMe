@@ -9,8 +9,8 @@ from flask import request, jsonify, Blueprint
 from flask_cors import CORS
 from supabase import create_client
 
-# Import the supabase client
-from api.supabase import supabase
+# Import the supabase clients
+from api.supabase import supabase, supabase_admin
 
 user = Blueprint('user_api', __name__)
 
@@ -67,7 +67,9 @@ def create_user():
     usuario_data = {'id': auth_response.user.id, 'email': email}
 
     try:
-        insert_response = supabase.table(
+        # Use supabase_admin (service role, session never overwritten by sign_up)
+        # so RLS is bypassed for the profile insert.
+        insert_response = supabase_admin.table(
             'profiles').upsert(usuario_data).execute()
         print("Insert response: ", insert_response)
         return jsonify(insert_response.data), 201
@@ -205,15 +207,12 @@ def delete_user(user_id):
         return jsonify({"error": str(e)}), 400
 
 
-
 @user.route('/forgot', methods=['POST'])
 def forgot_password():
     data = request.get_json()
     email = data.get('email')
 
-
     print("Solicitud de recuperacion recibida para:", email)
-
 
     if not email:
         print("Error: email no proporcionado.")
