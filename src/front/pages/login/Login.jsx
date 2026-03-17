@@ -2,6 +2,7 @@ import style from "./Login.module.css";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
+import logo from "../../assets/LOGO FLAGS-06.png";
 
 
 export function Login() {
@@ -47,7 +48,6 @@ export function Login() {
 
             navigate("/");
 
-            // notify other parts of the app that a user logged in (after navigation)
             setTimeout(() => {
                 try {
                     window.dispatchEvent(new Event('userLoggedIn'));
@@ -59,25 +59,25 @@ export function Login() {
         } catch (error) {
             console.log(error);
             Swal.fire({
-                    icon: "error",
-                    title: "Credenciales incorrectas",
-                    confirmButtonText: "Intentar de nuevo",
-                    confirmButtonColor: "var(--primary-color)",
-                });
+                icon: "error",
+                title: "Credenciales incorrectas",
+                confirmButtonText: "Intentar de nuevo",
+                confirmButtonColor: "var(--primary-color)",
+            });
         }
     }
-
-
-
-
 
     return (
         <div className={style.login_page}>
             <form className={style.form_login} onSubmit={handleLogin}>
+
+                <div className={style.logoContainer}>
+                    <img src={logo} alt="Flag's logo" className={style.logo} />
+                </div>
+
                 <div className={style.tabs}>
                     <span
-                        className={`${style.tab} ${activeTab === "login" ? style.active : ""
-                            }`}
+                        className={`${style.tab} ${activeTab === "login" ? style.active : ""}`}
                         onClick={() => setActiveTab("login")}
                     >
                         Inicia Sesión
@@ -113,7 +113,7 @@ export function Login() {
                     Inicia Sesión
                 </button>
 
-                <hr></hr>
+                <hr />
 
                 <Link to="/forgotpassword">¿Haz olvidado tu contraseña?</Link>
 

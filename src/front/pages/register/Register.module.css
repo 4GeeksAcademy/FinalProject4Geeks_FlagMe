@@ -75,3 +75,13 @@
   font-size: 18px;
   cursor: pointer;
 }
+.logoContainer {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.logo {
+    width: 280px;
+    object-fit: contain;
+}
